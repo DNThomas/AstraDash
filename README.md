@@ -1,4 +1,4 @@
-# Astra Dash Online
+# ESP32 Astra GTE Dash
 Arduino code to use a ESP32 to control an Astra GTE Dashboard display.
 
 ## Initial wiring
