@@ -15,6 +15,7 @@ int brokerport = 1883;
 
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
+
 const char topic[]  = "AstraGTEDials";
 
 byte fuzz;
@@ -37,6 +38,7 @@ void setup() {
 
   initWiFi();
 
+  mqttClient.setUsernamePassword(brokeruser, brokerpass);
   if (!mqttClient.connect(broker, brokerport)) {
     Serial.print("MQTT connection failed! Error code = ");
     Serial.println(mqttClient.connectError());
