@@ -54,8 +54,8 @@ void loop()
   bitBangData(flipByte(0x00),34); // fuel segments
   bitBangData(flipByte(0xDF),34); // fuel segment end
 */
-
-  bitBangData(flipByte(0x00),34); // digit 3 and MPH/KMH
+  bitBangData(flipByte(fuzz),34); // digit 3 and MPH/KMH
+  // bitBangData(flipByte(0x00),34); // digit 3 and MPH/KMH
   bitBangData(flipByte(0xF2),34); // digit 2 and 1st 4 segs of revs
   bitBangData(flipByte(0x00),34); // next 8 segs of revs
   bitBangData(flipByte(0xFF),34); // next 8 segs of revs
