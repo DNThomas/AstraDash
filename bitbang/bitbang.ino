@@ -1,9 +1,3 @@
-// 3 VCC
-// 4 GND
-// 5 CLK
-// 6 MOSI/DATA
-// 7 SS
-
 #define SCK 18 //Clk
 #define MISO 19
 #define MOSI 23 //Data
@@ -19,10 +13,10 @@ void setup()
 {
   Serial.begin(115200);
   
-pinMode(MISO, INPUT);
- pinMode(SS, OUTPUT);
- pinMode(SCK, OUTPUT);
- pinMode(MOSI, OUTPUT);
+  pinMode(MISO, INPUT);
+  pinMode(SS, OUTPUT);
+  pinMode(SCK, OUTPUT);
+  pinMode(MOSI, OUTPUT);
 
   digitalWrite(MOSI, HIGH);       // SS high again 
   digitalWrite(SCK, HIGH);       // SS high again 
