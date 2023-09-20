@@ -9,4 +9,5 @@ fi
 
 bin/arduino-cli compile --fqbn esp32:esp32:nodemcu-32s bitbang
 bin/arduino-cli upload -p $TTY --fqbn esp32:esp32:nodemcu-32s bitbang
+bin/arduino-cli monitor -p $TTY --fqbn esp32:esp32:nodemcu-32s -c baudrate=115200
 
