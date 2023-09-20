@@ -25,6 +25,13 @@ Arduino code to use a ESP32 to control an Astra GTE Dashboard display.
 1. ``bin/arduino-cli core update-index --additional-urls https://arduino.esp8266.com/stable/package_esp8266com_index.json``
 1. ``bin/arduino-cli core update-index && bin/arduino-cli board listall && bin/arduino-cli core install esp32:esp32``
 
+## Configure WiFi and MQQT
+Create ``bitbang/arduino_secrets.h`` and paste the below in editing the values accordingly:
+```
+#define SECRET_SSID "YourSSIDHere"
+#define SECRET_PASS "YourPassHere"
+```
+
 ## Compile
 ``bin/arduino-cli compile --fqbn esp32:esp32:nodemcu-32s bitbang``
 
