@@ -1,3 +1,9 @@
+// 3 VCC
+// 4 GND
+// 5 CLK
+// 6 MOSI/DATA
+// 7 SS
+
 #define SCK 18 //Clk
 #define MISO 19
 #define MOSI 23 //Data
