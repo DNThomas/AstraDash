@@ -44,6 +44,7 @@ void setup() {
     Serial.println(mqttClient.connectError());
     while (1);
   }
+  mqttClient.subscribe(topic);
   Serial.println("You're connected to the MQTT broker!");
   Serial.println();
 }
@@ -51,9 +52,23 @@ void setup() {
 
 
 void loop() {
-  // call poll() regularly to allow the library to receive MQTT messages and
-  // send MQTT keep alive which avoids being disconnected by the broker
-  mqttClient.poll();
+  int messageSize = mqttClient.parseMessage();
+  if (messageSize) {
+    // we received a message, print out the topic and contents
+    Serial.print("Received a message with topic '");
+    Serial.print(mqttClient.messageTopic());
+    Serial.print("', length ");
+    Serial.print(messageSize);
+    Serial.println(" bytes:");
+
+    // use the Stream interface to print the contents
+    while (mqttClient.available()) {
+      Serial.print((char)mqttClient.read());
+    }
+    Serial.println();
+
+    Serial.println();
+  }
 
   // bitBangData(flipByte(fuzz),34); // digit 3 and MPH/KMH
   bitBangData(flipByte(0xFF),34); // digit 3 and MPH/KMH
