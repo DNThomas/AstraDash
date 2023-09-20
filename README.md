@@ -1,5 +1,5 @@
-# AstraDash
-Arduino code to use a ESP32 to bitbang an Astra GTE Dashboard display.
+# Astra Dash Online
+Arduino code to use a ESP32 to control an Astra GTE Dashboard display.
 
 ## Initial wiring
 1. Disconnect the blue connector from the main control board to the display board
@@ -7,15 +7,15 @@ Arduino code to use a ESP32 to bitbang an Astra GTE Dashboard display.
 
 ## Wiring: GTE Dials pin to Arduino
 
-// 3 VCC <> Direct from USB 5v feed
+3 VCC <> Direct from USB 5v feed
 
-// 4 GND <> Direct from Ground
+4 GND <> Direct from Ground
 
-// 5 CLK <> SCK 18
+5 CLK <> SCK 18
 
-// 6 MOSI/DATA <> MOSI 23
+6 MOSI/DATA <> MOSI 23
 
-// 7 SS <> SS 5
+7 SS <> SS 5
 
 
 ## Installation
