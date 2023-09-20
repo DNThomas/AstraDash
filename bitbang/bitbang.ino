@@ -4,6 +4,7 @@
 
 #include <ArduinoMqttClient.h>
 #include <WiFi.h>
+#include "ArduinoJson.h"
 #include "arduino_secrets.h"
 
 char ssid[] = SECRET_SSID; // Your WIFI Network SSID
@@ -46,48 +47,63 @@ void setup() {
   }
   mqttClient.subscribe(topic);
   Serial.println("You're connected to the MQTT broker!");
-  Serial.println();
+
+  // set the message receive callback
+  mqttClient.onMessage(onMqttMessage);
+}
+
+/*
+void processPayload(payload) {
+  // bitBangData(flipByte(fuzz),34); // digit 3 and MPH/KMH
+  bitBangData(flipByte(0xFF),34); // digit 3 and MPH/KMH
+  bitBangData(flipByte(0xFF),34); // digit 2 and 1st 4 segs of revs -- also something on speedo?
+  bitBangData(flipByte(0xFF),34); // next 8 segs of revs
+  bitBangData(flipByte(0xFF),34); // next 8 segs of revs
+  bitBangData(flipByte(0xFF),34); // last 8 segs of revs
+  bitBangData(flipByte(0xFF),34); // revs colour and red bits (0XFF for Red bits on)
+  bitBangData(flipByte(0xFF),34); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
+  // bitBangData(flipByte(doc["battery"],34); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
+  bitBangData(flipByte(0xFF),34); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
+  bitBangData(flipByte(0xFF),34); // battery segments, temp alarm
+  bitBangData(flipByte(0xFF),34); // temp segments, fuel alarm
+  bitBangData(flipByte(0xFF),34); // fuel segments
+  bitBangData(flipByte(0xFF),34); // fuel segment end
+}
+*/
+
+
+
+void onMqttMessage(int messageSize) {
+  String payload = "";
+  char character;
+  // Turn stream into string
+  while (mqttClient.available()) {
+     character = (char)mqttClient.read();
+     payload.concat(character);
+  }
+  Serial.println(payload); // {temp:"24", battery:"99"}
+
+  StaticJsonDocument<128> doc;
+  DeserializationError error = deserializeJson(doc, payload);
+
+  if (error) {
+    Serial.print("deserializeJson() failed: ");
+    Serial.println(error.c_str());
+    return;
+  }
+
+  const char* battery = doc["battery"]; // "50"
+  const char* temp = doc["temp"]; // "24"
+  Serial.println(battery);
+  Serial.println(temp);
+  digitalWrite(SS, HIGH);
+  delayMicroseconds(2);
+  digitalWrite(SS, LOW);
 }
 
 
-
 void loop() {
-  int messageSize = mqttClient.parseMessage();
-  if (messageSize) {
-    // we received a message, print out the topic and contents
-    Serial.print("Received a message with topic '");
-    Serial.print(mqttClient.messageTopic());
-    Serial.print("', length ");
-    Serial.print(messageSize);
-    Serial.println(" bytes:");
-
-    // use the Stream interface to print the contents
-    while (mqttClient.available()) {
-      Serial.print((char)mqttClient.read());
-
-      // bitBangData(flipByte(fuzz),34); // digit 3 and MPH/KMH
-      bitBangData(flipByte(0xFF),34); // digit 3 and MPH/KMH
-      bitBangData(flipByte(0xFF),34); // digit 2 and 1st 4 segs of revs -- also something on speedo?
-      bitBangData(flipByte(0xFF),34); // next 8 segs of revs
-      bitBangData(flipByte(0xFF),34); // next 8 segs of revs
-      bitBangData(flipByte(0xFF),34); // last 8 segs of revs
-      bitBangData(flipByte(0xFF),34); // revs colour and red bits (0XFF for Red bits on)
-      bitBangData(flipByte(0xFF),34); // digit 1 and 2 of MPH/KPH. All 4 of left indicators - 
-      bitBangData(flipByte((char)mqttClient.read()),34); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
-      bitBangData(flipByte(0xFF),34); // battery segments, temp alarm
-      bitBangData(flipByte(0xFF),34); // temp segments, fuel alarm
-      bitBangData(flipByte(0xFF),34); // fuel segments
-      bitBangData(flipByte(0xFF),34); // fuel segment end
- 
-      digitalWrite(SS, HIGH);
-      delayMicroseconds(2);
-      digitalWrite(SS, LOW);
-    }
-  }
-
-  fuzz++;
-  // Serial.write(fuzz);
-  delay(100);
+  mqttClient.poll();
 }
 
 
@@ -128,18 +144,3 @@ void initWiFi() {
   Serial.println(WiFi.localIP());
 }
 
-void onMqttMessage(int messageSize) {
-  // we received a message, print out the topic and contents
-  Serial.println("Received a message with topic '");
-  Serial.print(mqttClient.messageTopic());
-  Serial.print("', length ");
-  Serial.print(messageSize);
-  Serial.println(" bytes:");
-
-  // use the Stream interface to print the contents
-  while (mqttClient.available()) {
-    Serial.print((char)mqttClient.read());
-  }
-  Serial.println();
-  Serial.println();
-}

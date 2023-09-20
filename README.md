@@ -60,7 +60,16 @@ Or for those who will make lots of changes...
 ## TODO
  - [ ] Do one gauge so I have working code that shows a certain value
  - [ ] Mask Bits so simple values can be written.
- - [ ] Design data structure IE if I want to write low battery level to fuel gauge I want to write something like "fuel,0"
+ - [ ] Design data structure IE if I want to write low battery level to fuel gauge I want to write something like "fuel:0"
+   Currently we write 12 values, on an mqqt update we only know 1 of those 12 values so we'd need to store the previous value and look it up.
+   There are two approaches for passing Data..
+    1. Build bitmap in HA and pass it to the ESP32
+    1. Pass integer values from HA and have the ESP32 build the bitmap
+    -- I guess either way I want something that can support "oil:20" or "battery:40" where 20/40 are %..  I also want to be able to do:
+	Indoor temp (Coolant Temp gauge)
+        Home Storage Battery level (Battery gauage)
+	
+   
  - [x] Figure out a way to interact with the ESP32 to update the value of a given item
 
 
