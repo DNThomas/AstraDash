@@ -40,9 +40,13 @@ Or for those who will make lots of changes...
 
 ## Notes
 1. We don't use MISO as it response from Dash to Arduino.
+1. Btw .. your easiest way would be to use old skool screen paging.  Have a 12 byte block of memory assigned to the screen. Put the screen refresh on a timed interrupt and have it say every 100ms. Then just have a loop that waits for commands from serial or websocket that updates the bitmap
+
 
 ## TODO
  - [ ] Do one gauge so I have working code that shows a certain value
  - [ ] Mask Bits so simple values can be written.
  - [ ] Design data structure IE if I want to write low battery level to fuel gauge I want to write something like "fuel,0"
  - [ ] Figure out a way to interact with the ESP32 to update the value of a given item
+
+
