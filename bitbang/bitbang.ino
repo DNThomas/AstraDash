@@ -6,17 +6,16 @@
 #include <WiFi.h>
 #include "arduino_secrets.h"
 
-char ssid[] = SECRET_SSID; // your network SSID
-char password[] = SECRET_PASS; // your network password
+char ssid[] = SECRET_SSID; // Your WIFI Network SSID
+char password[] = SECRET_PASS; // your WIFI Network password
+char broker[] = SECRET_BROKER; // Your MQQT broker hostname
+char brokeruser[] = SECRET_BROKERUSER; // Your MQQT broker username
+char brokerpass[] = SECRET_BROKERPASS; // Your MQQT broker password
+int brokerport = 1883;
 
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
-
-const char broker[] = "test.mosquitto.org";
-int        port     = 1883;
-const char topic[]  = "real_unique_topic";
-const char topic2[]  = "real_unique_topic_2";
-const char topic3[]  = "real_unique_topic_3";
+const char topic[]  = "AstraGTEDials";
 
 byte fuzz;
 
@@ -38,7 +37,7 @@ void setup() {
 
   initWiFi();
 
-  if (!mqttClient.connect(broker, port)) {
+  if (!mqttClient.connect(broker, brokerport)) {
     Serial.print("MQTT connection failed! Error code = ");
     Serial.println(mqttClient.connectError());
     while (1);

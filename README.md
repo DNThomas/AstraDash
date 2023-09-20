@@ -30,6 +30,9 @@ Create ``bitbang/arduino_secrets.h`` and paste the below in editing the values a
 ```
 #define SECRET_SSID "YourSSIDHere"
 #define SECRET_PASS "YourPassHere"
+#define SECRET_BROKER "YourMQQTBrokerHostnameHere"
+#define SECRET_BROKERUSER "YourMQQTBrokerUsernameHere"
+#define SECRET_BROKERPASS "YourMQQTBrokerPasswordHere"
 ```
 
 ## Compile
