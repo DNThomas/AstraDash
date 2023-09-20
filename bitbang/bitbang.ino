@@ -64,29 +64,26 @@ void loop() {
     // use the Stream interface to print the contents
     while (mqttClient.available()) {
       Serial.print((char)mqttClient.read());
-    }
-    Serial.println();
 
-    Serial.println();
-  }
-
-  // bitBangData(flipByte(fuzz),34); // digit 3 and MPH/KMH
-  bitBangData(flipByte(0xFF),34); // digit 3 and MPH/KMH
-  bitBangData(flipByte(0xFF),34); // digit 2 and 1st 4 segs of revs -- also something on speedo?
-  bitBangData(flipByte(0xFF),34); // next 8 segs of revs
-  bitBangData(flipByte(0xFF),34); // next 8 segs of revs
-  bitBangData(flipByte(0xFF),34); // last 8 segs of revs
-  bitBangData(flipByte(0xFF),34); // revs colour and red bits (0XFF for Red bits on)
-  bitBangData(flipByte(0xFF),34); // digit 1 and 2 of MPH/KPH. All 4 of left indicators - 
-  bitBangData(flipByte(0x15),34); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
-  bitBangData(flipByte(0xFF),34); // battery segments, temp alarm
-  bitBangData(flipByte(0xFF),34); // temp segments, fuel alarm
-  bitBangData(flipByte(0xFF),34); // fuel segments
-  bitBangData(flipByte(0xFF),34); // fuel segment end
+      // bitBangData(flipByte(fuzz),34); // digit 3 and MPH/KMH
+      bitBangData(flipByte(0xFF),34); // digit 3 and MPH/KMH
+      bitBangData(flipByte(0xFF),34); // digit 2 and 1st 4 segs of revs -- also something on speedo?
+      bitBangData(flipByte(0xFF),34); // next 8 segs of revs
+      bitBangData(flipByte(0xFF),34); // next 8 segs of revs
+      bitBangData(flipByte(0xFF),34); // last 8 segs of revs
+      bitBangData(flipByte(0xFF),34); // revs colour and red bits (0XFF for Red bits on)
+      bitBangData(flipByte(0xFF),34); // digit 1 and 2 of MPH/KPH. All 4 of left indicators - 
+      bitBangData(flipByte((char)mqttClient.read()),34); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
+      bitBangData(flipByte(0xFF),34); // battery segments, temp alarm
+      bitBangData(flipByte(0xFF),34); // temp segments, fuel alarm
+      bitBangData(flipByte(0xFF),34); // fuel segments
+      bitBangData(flipByte(0xFF),34); // fuel segment end
  
-  digitalWrite(SS, HIGH);
-  delayMicroseconds(2);
-  digitalWrite(SS, LOW);
+      digitalWrite(SS, HIGH);
+      delayMicroseconds(2);
+      digitalWrite(SS, LOW);
+    }
+  }
 
   fuzz++;
   // Serial.write(fuzz);
