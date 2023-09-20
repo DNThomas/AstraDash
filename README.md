@@ -61,6 +61,6 @@ Or for those who will make lots of changes...
  - [ ] Do one gauge so I have working code that shows a certain value
  - [ ] Mask Bits so simple values can be written.
  - [ ] Design data structure IE if I want to write low battery level to fuel gauge I want to write something like "fuel,0"
- - [ ] Figure out a way to interact with the ESP32 to update the value of a given item
+ - [x] Figure out a way to interact with the ESP32 to update the value of a given item
 
 
