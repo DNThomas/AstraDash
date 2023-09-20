@@ -6,11 +6,17 @@ Arduino code to use a ESP32 to bitbang an Astra GTE Dashboard display.
 1. Connect Dupont wires from pins 3,4,5,6,7 to ESP32 as per "Wiring" instructions
 
 ## Wiring: GTE Dials pin to Arduino
+
 // 3 VCC <> Direct from USB 5v feed
+
 // 4 GND <> Direct from Ground
+
 // 5 CLK <> SCK 18
+
 // 6 MOSI/DATA <> MOSI 23
+
 // 7 SS <> SS 5
+
 
 ## Installation
 1. Clone the repo: ``git clone https://github.com/JohnMcLear/AstraDash.git && cd AstraDash``
@@ -23,7 +29,8 @@ Arduino code to use a ESP32 to bitbang an Astra GTE Dashboard display.
 ``bin/arduino-cli compile --fqbn esp32:esp32:nodemcu-32s bitbang``
 
 ## Run
-* Change ttyUSB1 to whatever port you are targeting.  ``sudo dmesg | grep tty`` to discover port
+Note: Change ttyUSB1 to whatever port you are targeting.  ``sudo dmesg | grep tty`` to discover port.
+
 ``bin/arduino-cli upload -p /dev/ttyUSB1 --fqbn esp32:esp32:nodemcu-32s bitbang``
 
 Or for those who will make lots of changes...
