@@ -35,8 +35,8 @@ Note: Change ttyUSB1 to whatever port you are targeting.  ``sudo dmesg | grep tt
 
 Or for those who will make lots of changes...
 
-## Compile and Run
-``./test.sh /dev/ttyUSB1``
+## Compile and Run (assumes /dev/ttyUSB0)
+``./test.sh``
 
 ## Notes
 1. We don't use MISO as it response from Dash to Arduino.
