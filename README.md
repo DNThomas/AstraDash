@@ -52,10 +52,31 @@ Or for those who will make lots of changes...
 ## Compile and Run (assumes /dev/ttyUSB0)
 ``./test.sh``
 
+## Configuring Home Assistant
+Create the automation with the following Yaml
+
+```
+alias: Every second Publish to Astra GTE Dials
+description: ""
+trigger:
+  - platform: time_pattern
+    seconds: /5
+condition: []
+action:
+  - service: mqtt.publish
+    data:
+      qos: 0
+      retain: false
+      topic: AstraGTEDials
+      payload: "{temp:\"24\", battery:\"99\"}"
+mode: single
+```
+
+
 ## Notes
 1. We don't use MISO as it response from Dash to Arduino.
 1. Btw .. your easiest way would be to use old skool screen paging.  Have a 12 byte block of memory assigned to the screen. Put the screen refresh on a timed interrupt and have it say every 100ms. Then just have a loop that waits for commands from serial or websocket that updates the bitmap
-
+1. The following are NOT supported: Hazards, Lights, Indicators, Choke, Parking Brake ..   Basically anything on the bottom row.  These could however be supported with additional relay control board.
 
 ## TODO
  - [ ] Do one gauge so I have working code that shows a certain value
@@ -65,11 +86,16 @@ Or for those who will make lots of changes...
    There are two approaches for passing Data..
     1. Build bitmap in HA and pass it to the ESP32
     1. Pass integer values from HA and have the ESP32 build the bitmap
-    -- I guess either way I want something that can support "oil:20" or "battery:40" where 20/40 are %..  I also want to be able to do:
-	Indoor temp (Coolant Temp gauge)
-        Home Storage Battery level (Battery gauage)
-	
-   
- - [x] Figure out a way to interact with the ESP32 to update the value of a given item
+ -- I guess either way I want something that can support "oil:20" or "battery:40" where 20/40 are %..  I also want to be able to do:
 
-
+## Output Designation
+ - [ ] Oil Temp > Outdoor Temp Degrees C (-5 > 40)
+ - [ ] Oil Temp Warning > Outdoor Temp < 0
+ - [ ] Battery Level > Home Storage Battery level %
+ - [ ] Battery Level Warning > Battery Level < 10%
+ - [ ] Coolant Temp > Indoor temp C (-5 > 40)
+ - [ ] Coolant Temp Warning > Indoor Temp < 15 degs
+ - [ ] Fuel Level > Electric car charge %
+ - [ ] Fuel Level warning > Electric car charge < 20%
+ - [ ] Speedo > How many tasks I have to do today (see input_number.active_todoist_jobs_today)
+ - [ ] RPM > Solar generation 0 > 7000

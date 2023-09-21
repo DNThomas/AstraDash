@@ -52,8 +52,9 @@ void setup() {
   mqttClient.onMessage(onMqttMessage);
 }
 
-/*
-void processPayload(payload) {
+
+void processPayload(String payload) {
+  Serial.println("Processing payload");
   // bitBangData(flipByte(fuzz),34); // digit 3 and MPH/KMH
   bitBangData(flipByte(0xFF),34); // digit 3 and MPH/KMH
   bitBangData(flipByte(0xFF),34); // digit 2 and 1st 4 segs of revs -- also something on speedo?
@@ -68,8 +69,10 @@ void processPayload(payload) {
   bitBangData(flipByte(0xFF),34); // temp segments, fuel alarm
   bitBangData(flipByte(0xFF),34); // fuel segments
   bitBangData(flipByte(0xFF),34); // fuel segment end
+  digitalWrite(SS, HIGH);
+  delayMicroseconds(2);
+  digitalWrite(SS, LOW);
 }
-*/
 
 
 
@@ -96,9 +99,7 @@ void onMqttMessage(int messageSize) {
   const char* temp = doc["temp"]; // "24"
   Serial.println(battery);
   Serial.println(temp);
-  digitalWrite(SS, HIGH);
-  delayMicroseconds(2);
-  digitalWrite(SS, LOW);
+  processPayload(payload);
 }
 
 
