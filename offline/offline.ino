@@ -37,26 +37,14 @@ void setup() {
   digitalWrite(MOSI, LOW);
   digitalWrite(SCK, LOW);
   digitalWrite(SS, LOW);
-
-  initWiFi();
-
-  mqttClient.setUsernamePassword(brokeruser, brokerpass);
-  if (!mqttClient.connect(broker, brokerport)) {
-    Serial.print("MQTT connection failed! Error code = ");
-    Serial.println(mqttClient.connectError());
-    while (1);
-  }
-  mqttClient.subscribe(topic);
-  Serial.println("You're connected to the MQTT broker!");
-
-  // set the message receive callback
-  mqttClient.onMessage(onMqttMessage);
 }
 
 
-void processPayload(String payload) {
-  Serial.println("Processing payload");
-  // bitBangDatflipByte(fuzz)); // digit 3 and MPH/KMH
+void processPayload() {
+  Serial.println("Processing payload:");
+  Serial.print(fuzz);
+  Serial.print(" ");
+  Serial.print(fuzz, BIN);
   bitBangData(0x00); // digit 3 and MPH/KMH
   bitBangData(0xFF); // digit 2 and 1st 4 segs of revs -- also something on speedo?
   bitBangData(0xFF); // next 8 segs of revs
@@ -64,49 +52,48 @@ void processPayload(String payload) {
   bitBangData(0xFF); // last 8 segs of revs
   bitBangData(0xFF); // revs colour and red bits (0XFF for Red bits on)
   bitBangData(0xFF); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
-  // bitBangData(flipByte(doc["battery"]); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
   bitBangData(0xFF); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
-  bitBangData(fuzz); // battery segments, temp alarm
+  bitBangData(fuzz); // battery segments (6), temp segments(2), temp alarm (1)
+/*
+  - 32 - just one segment = 1,0,1
+  - 1 two sections and light = 2,1
+  - 3 three sections and light = 3,0,1
+  - 7 4 secotions and light = 4,0,1
+  - 15 - all lit up = 6,0,1
+  - 31 - 
+  - 34 - 
+  - 35 - 
+  - 39 - 
+  - 47 5?
+  - 63 - 6,1,1
+  - 64 light off
+  - 78 - everything = 
+  - 95 - light came on = 
+99
+103
+110
+126
+134
+143
+158
+161
+163, 166, 225 = temp light, 255 = all on and temp light
+30
+*/
   bitBangData(0xFF); // temp segments, fuel alarm
   bitBangData(0xFF); // fuel segments
   bitBangData(0xFF); // fuel segment end
   digitalWrite(SS, HIGH);
   delayMicroseconds(2);
   digitalWrite(SS, LOW);
+  Serial.println();
   fuzz++;
 }
 
 
-
-void onMqttMessage(int messageSize) {
-  String payload = "";
-  char character;
-  // Turn stream into string
-  while (mqttClient.available()) {
-     character = (char)mqttClient.read();
-     payload.concat(character);
-  }
-  Serial.println(payload); // {temp:"24", battery:"99"}
-
-  StaticJsonDocument<128> doc;
-  DeserializationError error = deserializeJson(doc, payload);
-
-  if (error) {
-    Serial.print("deserializeJson() failed: ");
-    Serial.println(error.c_str());
-    return;
-  }
-
-  const char* battery = doc["battery"]; // "50"
-  const char* temp = doc["temp"]; // "24"
-  Serial.println(battery);
-  Serial.println(temp);
-  processPayload(payload);
-}
-
-
 void loop() {
-  mqttClient.poll();
+  processPayload();
+  delay(3000);
 }
 
 
@@ -123,16 +110,5 @@ byte bitBangData(byte _send) {
   }
   digitalWrite(MOSI, LOW);
   return false;
-}
-
-void initWiFi() {
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  Serial.print("Connecting to WiFi ..");
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print('.');
-    delay(1000);
-  }
-  Serial.println(WiFi.localIP());
 }
 

@@ -99,3 +99,10 @@ mode: single
  - [ ] Fuel Level warning > Electric car charge < 20%
  - [ ] Speedo > How many tasks I have to do today (see input_number.active_todoist_jobs_today)
  - [ ] RPM > Solar generation 0 > 7000
+
+## Brain dump on driving the display.
+Currently the display is segmented by 12 x 256 values(8 bit) resulting in ~3000 potential states / states.
+
+Thankfully we know how to address each segment so our next step is to go through each segment and pass in various 8 bit values to find a value that changes the state we want.
+
+For example; we can go through all of the potential values on the fuel gauge and discover 
