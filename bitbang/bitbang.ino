@@ -13,6 +13,7 @@ char broker[] = SECRET_BROKER; // Your MQQT broker hostname
 char brokeruser[] = SECRET_BROKERUSER; // Your MQQT broker username
 char brokerpass[] = SECRET_BROKERPASS; // Your MQQT broker password
 int brokerport = 1883;
+int displayDelay = 34;
 
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
@@ -55,20 +56,20 @@ void setup() {
 
 void processPayload(String payload) {
   Serial.println("Processing payload");
-  // bitBangData(flipByte(fuzz),34); // digit 3 and MPH/KMH
-  bitBangData(flipByte(0xFF),34); // digit 3 and MPH/KMH
-  bitBangData(flipByte(0xFF),34); // digit 2 and 1st 4 segs of revs -- also something on speedo?
-  bitBangData(flipByte(0xFF),34); // next 8 segs of revs
-  bitBangData(flipByte(0xFF),34); // next 8 segs of revs
-  bitBangData(flipByte(0xFF),34); // last 8 segs of revs
-  bitBangData(flipByte(0xFF),34); // revs colour and red bits (0XFF for Red bits on)
-  bitBangData(flipByte(0xFF),34); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
-  // bitBangData(flipByte(doc["battery"],34); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
-  bitBangData(flipByte(0xFF),34); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
-  bitBangData(flipByte(0xFF),34); // battery segments, temp alarm
-  bitBangData(flipByte(0xFF),34); // temp segments, fuel alarm
-  bitBangData(flipByte(0xFF),34); // fuel segments
-  bitBangData(flipByte(0xFF),34); // fuel segment end
+  // bitBangDatflipByte(fuzz)); // digit 3 and MPH/KMH
+  bitBangData(0x00); // digit 3 and MPH/KMH
+  bitBangData(0xFF); // digit 2 and 1st 4 segs of revs -- also something on speedo?
+  bitBangData(0xFF); // next 8 segs of revs
+  bitBangData(0xFF); // next 8 segs of revs
+  bitBangData(0xFF); // last 8 segs of revs
+  bitBangData(0xFF); // revs colour and red bits (0XFF for Red bits on)
+  bitBangData(0xFF); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
+  // bitBangData(flipByte(doc["battery"]); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
+  bitBangData(0xFF); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
+  bitBangData(0xFF); // battery segments, temp alarm
+  bitBangData(0xFF); // temp segments, fuel alarm
+  bitBangData(0xFF); // fuel segments
+  bitBangData(0xFF); // fuel segment end
   digitalWrite(SS, HIGH);
   delayMicroseconds(2);
   digitalWrite(SS, LOW);
@@ -109,29 +110,18 @@ void loop() {
 
 
 
-byte bitBangData(byte _send,int bit_time) {
-  byte _receive = 0;
+byte bitBangData(byte _send) {
   for(int i=0; i<8; i++) {
     digitalWrite(MOSI, bitRead(_send, i));
     delayMicroseconds(1);
     digitalWrite(SCK, LOW);
     delayMicroseconds(1);
     digitalWrite(SCK, HIGH);
-
-    // Pads this so each bit is approx 36uS
-    delayMicroseconds(bit_time); 
+    // Pads this so each bit is approx 34ms
+    delayMicroseconds(displayDelay); 
   }
   digitalWrite(MOSI, LOW);
-
-  // Return the received data
-  return _receive;
-}
-
-byte flipByte(byte c) {
-  c = ((c>>1)&0x55)|((c<<1)&0xAA);
-  c = ((c>>2)&0x33)|((c<<2)&0xCC);
-  c = (c>>4) | (c<<4) ;
-  return c;
+  return false;
 }
 
 void initWiFi() {
