@@ -52,7 +52,7 @@ void processPayload() {
   bitBangData(0xFF); // last 8 segs of revs
   bitBangData(0xFF); // revs colour and red bits (0XFF for Red bits on)
   bitBangData(0xFF); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
-  bitBangData(0xFF); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
+  bitBangData(0xFF); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on) -- first bit of battery
   bitBangData(0b00000000); // battery segments (6), temp segments(2), temp alarm (1) - 
 /*
               || ignore
