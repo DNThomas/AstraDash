@@ -53,28 +53,37 @@ void processPayload() {
   bitBangData(0xFF); // revs colour and red bits (0XFF for Red bits on)
   bitBangData(0xFF); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
   bitBangData(0xFF); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
-  bitBangData(fuzz); // battery segments (6), temp segments(2), temp alarm (1)
+  bitBangData(0b00000000); // battery segments (6), temp segments(2), temp alarm (1) - 
 /*
+              || ignore
+                | - 2nd bit of temp
+                 | - 1st bit of temp
+                  | - temp light
+                   | - 6th bit of battery
+                    | - 5th bit of battery
+                     | - 4th bit of battery
+                      | - 3rd bit of battery
+                       | - 2nd bit of battery
+
+
   - 32 - just one segment = 1,0,1
   - 1 two sections and light = 2,1
   - 3 three sections and light = 3,0,1
   - 7 4 secotions and light = 4,0,1
   - 15 - all lit up = 6,0,1
-  - 31 - 
-  - 34 - 
-  - 35 - 
-  - 39 - 
-  - 47 5?
+  - 31 - 1,1,1/0
+  - 35 - 3,0,1
+  - 39 - 4,0,1
+  - 47 - ???
   - 63 - 6,1,1
-  - 64 light off
-  - 78 - everything = 
-  - 95 - light came on = 
-99
-103
-110
-126
-134
-143
+  - 64 - 1,0,1??  TBC light off
+  - 95 - light came on = 6
+99 - 3,1,1
+103 - 4,1,1
+111 - 5,1,1
+127 - 6,1,1
+129 - 1,1,0
+143 - 
 158
 161
 163, 166, 225 = temp light, 255 = all on and temp light
@@ -93,7 +102,7 @@ void processPayload() {
 
 void loop() {
   processPayload();
-  delay(3000);
+  delay(500);
 }
 
 
