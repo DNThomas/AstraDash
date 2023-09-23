@@ -20,8 +20,6 @@ MqttClient mqttClient(wifiClient);
 
 const char topic[]  = "AstraGTEDials";
 
-byte fuzz;
-
 void setup() {
   Serial.begin(115200);
 
@@ -40,20 +38,119 @@ void setup() {
 }
 
 
-void processPayload() {
+void processPayload(bool flip) {
+  byte data = 0b10000000;
+  if (flip) {
+    Serial.print("turning all on");
+    data = 0b00000000;
+  }
   Serial.println("Processing payload:");
-  Serial.print(fuzz);
-  Serial.print(" ");
-  Serial.print(fuzz, BIN);
-  bitBangData(0x00); // digit 3 and MPH/KMH
-  bitBangData(0xFF); // digit 2 and 1st 4 segs of revs -- also something on speedo?
-  bitBangData(0xFF); // next 8 segs of revs
-  bitBangData(0xFF); // next 8 segs of revs
-  bitBangData(0xFF); // last 8 segs of revs
-  bitBangData(0xFF); // revs colour and red bits (0XFF for Red bits on)
-  bitBangData(0xFF); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
-  bitBangData(0xFF); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on) -- first bit of battery
-  bitBangData(0b00000000); // battery segments (6), temp segments(2), temp alarm (1) - 
+  Serial.print(data);
+  bitBangData(data); // digit 3 and MPH/KMH
+/*
+              || ignore
+                | - middle
+                 | - TBD
+                  | - TBD
+                   | - TBD
+                    | - TBD
+                     | - TBD 
+                      | - TBD
+                       | - Temp warning
+
+*/
+  bitBangData(data); // digit 2 and 1st 4 segs of revs -- also something on speedo?
+/*
+              || ignore
+                | - 6
+                 | - TBD
+                  | - TBD
+                   | - 16k rpm
+                    | - TBD
+                     | - 12k rpm
+                      | - 10k rpm
+                       | - 6k rpm
+
+*/
+  bitBangData(data); // next 8 segs of revs
+/*
+              || ignore
+                | - 22
+                 | - TBD
+                  | - TBD
+                   | - 32k rpm
+                    | - TBD
+                     | - TBD
+                      | - 25k rpm
+                       | - 24k rpm
+
+*/
+  bitBangData(data); // next 8 segs of revs
+/*
+              || ignore
+                | - 38
+                 | - TBD
+                  | - TBD
+                   | - 49k rpm
+                    | - TBD
+                     | - 42k rpm
+                      | - TBD
+                       | - 42k rpm
+
+*/
+  bitBangData(data); // last 8 segs of revs
+/*
+              || ignore
+                | - 50
+                 | - 62
+                  | - TBD 
+                   | - TBD
+                    | - TBD
+                     | - TBD
+                      | - TBD
+                       | - 80k rpm
+
+*/
+  bitBangData(data); // revs colour and red bits (0XFF for Red bits on)
+/*
+              || ignore
+                | - TBD
+                 | - TBD
+                  | - TBD
+                   | - Red line above warning
+                    | - TBD
+                     | - First Red line?
+                      | - TBD
+                       | - TBD
+
+*/
+  bitBangData(data); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
+/*
+              || ignore
+                | - TBD
+                 | - TBD
+                  | - digit 1 > top middle, bottom left, middle middle, bottom middle
+                   | - digit 1 > top right
+                    | - digit 1 > bottom right
+                     | - digit 2 > bottom middle
+                      | - digit 2 > bottom left
+                       | - digit 2 > middle section, oil warning light?
+
+*/
+  bitBangData(data); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on) -- first bit of battery
+/*
+              || ignore
+                | - 1st bit of battery
+                 | - battery alarm
+                  | - final section of oil
+                   | - 4th section of oil
+                    | - 3rd section of oil
+                     | - 2nd section of oil
+                      | - 1st section of oil
+                       | - oil warning?
+
+*/
+  bitBangData(data); // battery segments (6), temp segments(2), temp alarm (1) - 
 /*
               || ignore
                 | - 2nd bit of temp
@@ -65,44 +162,60 @@ void processPayload() {
                       | - 3rd bit of battery
                        | - 2nd bit of battery
 
-
-  - 32 - just one segment = 1,0,1
-  - 1 two sections and light = 2,1
-  - 3 three sections and light = 3,0,1
-  - 7 4 secotions and light = 4,0,1
-  - 15 - all lit up = 6,0,1
-  - 31 - 1,1,1/0
-  - 35 - 3,0,1
-  - 39 - 4,0,1
-  - 47 - ???
-  - 63 - 6,1,1
-  - 64 - 1,0,1??  TBC light off
-  - 95 - light came on = 6
-99 - 3,1,1
-103 - 4,1,1
-111 - 5,1,1
-127 - 6,1,1
-129 - 1,1,0
-143 - 
-158
-161
-163, 166, 225 = temp light, 255 = all on and temp light
-30
 */
-  bitBangData(0xFF); // temp segments, fuel alarm
-  bitBangData(0xFF); // fuel segments
-  bitBangData(0xFF); // fuel segment end
+  bitBangData(data); // temp segments, fuel alarm
+/*
+              || ignore
+                | - 2nd bit of temp
+                 | - 1st bit of temp
+                  | - TBD
+                   | - fuel alarm
+                    | - Final red bit of temp
+                     | - 5th bit of temp
+                      | - 4th bit of temp
+                       | - 3rd bit of temp
+
+*/
+  bitBangData(data); // fuel segments
+/*
+              || ignore
+                | - 2nd bit of fuel or 7th?
+                 | - TBD
+                  | - 1st bit
+                   | - 6th bit of fuel
+                    | - 5th bit of fuiel
+                     | - 4th bit of Fuel?
+                      | - 3rd bit of Fuel?  Hard to tell
+                       | - 2nd bit of Fuel?  Hard to tell
+
+*/
+  bitBangData(data); // fuel segment end
+/*
+              || ignore
+                | - penultimate bit of fuel?
+                 | - final bit of fuel
+                  | - 7th bit of fuel
+                   | - TBD
+                    | - TBD
+                     | - TBD?
+                      | - TBD
+                       | - final bit of fuel, maybe 8?
+
+*/
   digitalWrite(SS, HIGH);
   delayMicroseconds(2);
   digitalWrite(SS, LOW);
   Serial.println();
-  fuzz++;
 }
 
 
 void loop() {
-  processPayload();
-  delay(500);
+  processPayload(false);
+  delay(1000);
+/*
+  processPayload(true);
+  delay(1000);
+*/
 }
 
 
