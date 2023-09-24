@@ -27,25 +27,25 @@ void loop () {
 
   int i = 0; // 1 is 0b00011000
   // 0...
-  processPayload(0b01111000, 0b00111111, nulldata, nulldata, 0b00000000, 0b00010000, 0b10011110, 0b01000001, 0b00100000, 0b00010000, 0b00000000, 0b00000000);
+  processPayload(0b01111000, 0b00111111, 0b00000000, nulldata, 0b00000000, 0b00010000, 0b10011110, 0b01000001, 0b00100000, 0b00010000, 0b00000000, 0b00000000);
   delay(1000); // 1
-  processPayload(0b00011000, 0b00001100, nulldata, nulldata, 0b00000000, 0b00010000, 0b10011000, 0b01000001, 0b00100000, 0b00010000, 0b00000000, 0b00000000);
+  processPayload(0b00011000, 0b11001100, 0b00000000, nulldata, 0b00000000, 0b00010000, 0b10011000, 0b01000001, 0b00100000, 0b00010000, 0b00000000, 0b00000000);
   delay(1000); // 2
-  processPayload(0b10110000, 0b00011011, nulldata, nulldata, nulldata, 0b00010000, 0b10110111, 0b10000010, 0b01000000, 0b01100000, 0b00000000, 0b00000000);
+  processPayload(0b10110000, 0b11011011, 0b00111111, nulldata, nulldata, 0b00010000, 0b10110111, 0b10000010, 0b01000000, 0b01100000, 0b00000000, 0b00000000);
   delay(1000); // 3
-  processPayload(0b10111100, 0b00011110, nulldata, nulldata, nulldata, 0b00010000, 0b10110101, 0b10000110, 0b11000001, 0b11100000, 0b00000001, 0b00000000); // 00100001
+  processPayload(0b10111100, 0b11011110, 0b11111111, 0b00000001, nulldata, 0b00010000, 0b10110101, 0b10000110, 0b11000001, 0b11100000, 0b00000001, 0b00000000); // 00100001
   delay(1000); // 4
-  processPayload(0b11011000, 0b00101100, nulldata, nulldata, nulldata, 0b00010000, 0b10110001, 0b10001110, 0b11000011, 0b11100001, 0b00000011, 0b0000000);
+  processPayload(0b11011000, 0b11101100, 0b11111111, 0b00000111, nulldata, 0b00010000, 0b10110001, 0b10001110, 0b11000011, 0b11100001, 0b00000011, 0b0000000);
   delay(1000); // 5
-  processPayload(0b11101000, 0b00110110, nulldata, nulldata, nulldata, 0b00010000, 0b10110101, 0b10011110, 0b11000111, 0b11100011, 0b00000111, 0b00010000);
+  processPayload(0b11101000, 0b11110110, 0b11111111, 0b00111111, nulldata, 0b00010000, 0b10110101, 0b10011110, 0b11000111, 0b11100011, 0b00000111, 0b00010000);
   delay(1000); // 6
-  processPayload(0b11101000, 0b00110111, nulldata, nulldata, nulldata, 0b00010000, 0b10110111, 0b10111110, 0b11001111, 0b11100111, 0b00011111, 0b10100000);
+  processPayload(0b11101000, 0b11110111, 0b11111111, 0b11111111, 0b00000001, 0b00010000, 0b10110111, 0b10111110, 0b11001111, 0b11100111, 0b00011111, 0b10100000);
   delay(1000); // 7 
-  processPayload(0b00111000, 0b00011100, nulldata, nulldata, nulldata, 0b00010100, 0b10110000, 0b10111110, 0b11011111, 0b11101111, 0b111111111, 0b11100001);
+  processPayload(0b00111000, 0b11011100, 0b11111111, 0b11111111, 0b00000111, 0b00000100, 0b10110000, 0b10111110, 0b11011111, 0b11101111, 0b111111111, 0b11100001);
   delay(1000); // 8 
-  processPayload(0b11111000, 0b00111111, nulldata, nulldata, nulldata, 0b00010100, 0b10110111, 0b10111110, 0b11011111, 0b11101111, 0b111111111, 0b11100001);
+  processPayload(0b11111000, 0b11111111, 0b11111111, 0b11111111, 0b00111111, 0b00000111, 0b10110111, 0b10111110, 0b11011111, 0b11101111, 0b111111111, 0b11100001);
   delay(1000); // 9
-  processPayload(0b11111000, 0b00111110, nulldata, nulldata, nulldata, 0b00010100, 0b10110101, 0b10111110, 0b11011111, 0b11101111, 0b111111111, 0b11100001);
+  processPayload(0b11111000, 0b11111110, 0b11111111, 0b11111111, 0b11111111, 0b11111111, 0b10110101, 0b10111110, 0b11011111, 0b11101111, 0b111111111, 0b11100001);
   delay(1000);
 
   i++;
@@ -69,8 +69,8 @@ void processPayload(byte displayOne, byte displayTwo, byte displayThree, byte di
   bitBangData(displayTwo); // digit 2 and 1st 4 segs of revs and bits digit 2 of MPH/KPH
 /*
               || ignore
-                | - 6
-                 | - TBD
+                | - 6kmph
+                 | - 3kmph
                   | - Top left digit 2
                    | - Top middle digit 2
                     | - Top right digit 2
@@ -82,48 +82,48 @@ void processPayload(byte displayOne, byte displayTwo, byte displayThree, byte di
   bitBangData(displayThree); // next 8 segs of revs
 /*
               || ignore
-                | - 22
-                 | - TBD
-                  | - TBD
-                   | - 32k rpm
-                    | - TBD
-                     | - TBD
-                      | - 25k rpm
-                       | - 24k rpm
+                | - 30krpm
+                 | - ...
+                  | - ...
+                   | - ...
+                    | - ...
+                     | - ...
+                      | - ...
+                       | - 10k rpm
 
 */
   bitBangData(displayFour); // next 8 segs of revs
 /*
               || ignore
-                | - 38
-                 | - TBD
-                  | - TBD
-                   | - 49k rpm
-                    | - TBD
-                     | - 42k rpm
-                      | - TBD
-                       | - 42k rpm
+                | - 45k
+                 | - ...
+                  | - ...
+                   | - ...
+                    | - ...
+                     | - ...
+                      | - ...
+                       | - 30k rpm
 
 */
   bitBangData(displayFive); // last 8 segs of revs
 /*
               || ignore
-                | - 50
-                 | - 62
-                  | - TBD
-                   | - TBD
-                    | - TBD
-                     | - TBD
-                      | - TBD
-                       | - 80k rpm
+                | - 45
+                 | - ...
+                  | - ...
+                   | - ...
+                    | - ...
+                     | - ...
+                      | - ...
+                       | - 60k rpm
 
 */
   bitBangData(displaySix); // revs colour and red bits (0XFF for Red bits on)
 /*
               || ignore
-                | - TBD
-                 | - TBD
-                  | - TBD
+                | - 60
+                 | - ...
+                  | - 70
                    | - Speedo backlight
                     | - TBD
                      | - First Red line?
