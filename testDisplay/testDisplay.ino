@@ -25,20 +25,25 @@ void loop () {
   // 12 display segments
   byte nulldata = 0b00000000;
 
-  int i = 0;
-  processPayload(nulldata, nulldata, nulldata, nulldata, nulldata, 0b00010000, 0b10011000, 0b01000001, 0b00100000, 0b00010000, 0b00000000, 0b00000000);
-  delay(1000);
-  processPayload(nulldata, nulldata, nulldata, nulldata, nulldata, 0b00010000, 0b10110000, 0b10000010, 0b01000000, 0b01100000, 0b00000000, 0b00000000);
-  delay(1000); // sitll working on #3 below ---------------------------------->
-  processPayload(nulldata, nulldata, nulldata, nulldata, nulldata, 0b00010000, 0b11100000, 0b10000110, 0b11000001, 0b11100000, 0b00000001, 0b00000000); // 00100001
-  delay(1000);
-  processPayload(nulldata, nulldata, nulldata, nulldata, nulldata, 0b00010000, 0b10000000, 0b10001110, 0b11000011, 0b11100001, 0b00000011, 0b0000000);
-  delay(1000);
-  processPayload(nulldata, nulldata, nulldata, nulldata, nulldata, 0b00010000, 0b10000000, 0b10011110, 0b11000111, 0b11100011, 0b00000111, 0b00010000);
-  delay(1000);
-  processPayload(nulldata, nulldata, nulldata, nulldata, nulldata, 0b00010000, 0b10000000, 0b10111110, 0b11001111, 0b11100111, 0b00011111, 0b10100000);
-  delay(1000);
-  processPayload(nulldata, nulldata, nulldata, nulldata, nulldata, 0b00010100, 0b10000000, 0b10111110, 0b11011111, 0b11101111, 0b111111111, 0b11100001);
+  int i = 0; // 1 is 0b00011000
+  // 1 on 3rd screen
+  processPayload(0b00011000, 0b00001100, nulldata, nulldata, 0b00000000, 0b00010000, 0b10011000, 0b01000001, 0b00100000, 0b00010000, 0b00000000, 0b00000000);
+  delay(1000); // 2
+  processPayload(0b10110000, 0b00011011, nulldata, nulldata, nulldata, 0b00010000, 0b10110111, 0b10000010, 0b01000000, 0b01100000, 0b00000000, 0b00000000);
+  delay(1000); // 3
+  processPayload(0b10111100, 0b00011110, nulldata, nulldata, nulldata, 0b00010000, 0b10110101, 0b10000110, 0b11000001, 0b11100000, 0b00000001, 0b00000000); // 00100001
+  delay(1000); // 4
+  processPayload(0b11011000, 0b00101100, nulldata, nulldata, nulldata, 0b00010000, 0b10110001, 0b10001110, 0b11000011, 0b11100001, 0b00000011, 0b0000000);
+  delay(1000); // 5
+  processPayload(0b11101000, 0b00110110, nulldata, nulldata, nulldata, 0b00010000, 0b10110101, 0b10011110, 0b11000111, 0b11100011, 0b00000111, 0b00010000);
+  delay(1000); // 6
+  processPayload(0b11101000, 0b00110111, nulldata, nulldata, nulldata, 0b00010000, 0b10110111, 0b10111110, 0b11001111, 0b11100111, 0b00011111, 0b10100000);
+  delay(1000); // 7 
+  processPayload(0b00111000, 0b00011100, nulldata, nulldata, nulldata, 0b00010100, 0b10110000, 0b10111110, 0b11011111, 0b11101111, 0b111111111, 0b11100001);
+  delay(1000); // 8 
+  processPayload(0b11111000, 0b00111111, nulldata, nulldata, nulldata, 0b00010100, 0b10110111, 0b10111110, 0b11011111, 0b11101111, 0b111111111, 0b11100001);
+  delay(1000); // 9
+  processPayload(0b11111000, 0b00111110, nulldata, nulldata, nulldata, 0b00010100, 0b10110101, 0b10111110, 0b11011111, 0b11101111, 0b111111111, 0b11100001);
   delay(1000);
 
   i++;
@@ -49,27 +54,27 @@ void processPayload(byte displayOne, byte displayTwo, byte displayThree, byte di
   bitBangData(displayOne); // digit 3 and MPH/KMH
 /*
               || ignore
-                | - middle
-                 | - TBD
-                  | - TBD
-                   | - TBD
-                    | - TBD
-                     | - TBD
-                      | - TBD
-                       | - TBD
+                | - middle middle
+                 | - top left
+                  | - top middle
+                   | - top right
+                    | - bottom right
+                     | - TBD - not digit 3
+                      | - TBD - not digit 3
+                       | - TBD - not digit 3 
 
 */
-  bitBangData(displayTwo); // digit 2 and 1st 4 segs of revs -- also something on speedo?
+  bitBangData(displayTwo); // digit 2 and 1st 4 segs of revs and bits digit 2 of MPH/KPH
 /*
               || ignore
                 | - 6
                  | - TBD
-                  | - TBD
-                   | - 16k rpm
-                    | - TBD
-                     | - 12k rpm
-                      | - 10k rpm
-                       | - 6k rpm
+                  | - Top left digit 2
+                   | - Top middle digit 2
+                    | - Top right digit 2
+                     | - bottom right digit 2
+                      | - bottom middle speedo digit 3
+                       | - bottom left speedo digit 3
 
 */
   bitBangData(displayThree); // next 8 segs of revs
@@ -121,10 +126,10 @@ void processPayload(byte displayOne, byte displayTwo, byte displayThree, byte di
                     | - TBD
                      | - First Red line?
                       | - TBD
-                       | - TBD
+                       | - TBD - 
 
 */
-  bitBangData(displaySeven); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
+  bitBangData(displaySeven); // digit 1 and 2(max value of 2 cause speedo) of MPH/KPH & All 4 of left indicators -
 /*
               || ignore
                 | - Left 4 icons
