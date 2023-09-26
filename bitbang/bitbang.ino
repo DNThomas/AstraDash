@@ -66,13 +66,14 @@ void processPayload(String payload) {
   bitBangData(0xFF); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
   // bitBangData(flipByte(doc["battery"]); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
   bitBangData(0xFF); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
-  bitBangData(0xFF); // battery segments, temp alarm
+  bitBangData(fuzz); // battery segments, temp alarm
   bitBangData(0xFF); // temp segments, fuel alarm
   bitBangData(0xFF); // fuel segments
   bitBangData(0xFF); // fuel segment end
   digitalWrite(SS, HIGH);
   delayMicroseconds(2);
   digitalWrite(SS, LOW);
+  fuzz++;
 }
 
 
