@@ -6,7 +6,9 @@ Arduino code to use a ESP32 to control an Astra GTE Dashboard display.
 ![Disconnecting the blue connector on the Astra GTE Dials](https://github.com/JohnMcLear/AstraDash/assets/220864/3600ab1a-57b3-4267-b3ec-5098f7bfbefa)
 
 1. Connect Dupont wires from pins 3,4,5,6,7 to ESP32 as per "Wiring" instructions
-![Connecting the ESP32 to the Astra GTE Dials](https://github.com/JohnMcLear/AstraDash/assets/220864/44b5a965-aa06-49ab-9637-cea280dbe507)
+![Connecting the ESP32 to the Astra GTE Dials (Astra Dials View)](https://github.com/JohnMcLear/AstraDash/assets/220864/44b5a965-aa06-49ab-9637-cea280dbe507)
+
+![Connecting the ESP32 to the Astra GTE Dials (ESP view)](https://github.com/JohnMcLear/AstraDash/assets/220864/fbfee946-2f15-4cee-b03e-1722e2407713)
 
 
 ## Wiring: GTE Dials pin to Arduino
