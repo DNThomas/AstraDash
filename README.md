@@ -21,9 +21,6 @@ Arduino code to use a ESP32 to control an Astra GTE Dashboard display.
 
 6 MOSI/DATA <> MOSI 23
 
-7 SS <> SS 5
-
-
 ## Installation
 1. Clone the repo: ``git clone https://github.com/JohnMcLear/AstraDash.git && cd AstraDash``
 1. ``curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh``
