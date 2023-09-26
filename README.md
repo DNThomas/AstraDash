@@ -29,7 +29,7 @@ Arduino code to use a ESP32 to control an Astra GTE Dashboard display.
 1. ``bin/arduino-cli core update-index && bin/arduino-cli board listall && bin/arduino-cli core install esp32:esp32``
 
 ## Configure WiFi and MQQT
-Create ``bitbang/arduino_secrets.h`` and paste the below in editing the values accordingly:
+Create ``AstraDashHomeAssistant/arduino_secrets.h`` and paste the below in editing the values accordingly:
 ```
 #define SECRET_SSID "YourSSIDHere"
 #define SECRET_PASS "YourPassHere"
@@ -39,17 +39,20 @@ Create ``bitbang/arduino_secrets.h`` and paste the below in editing the values a
 ```
 
 ## Compile
-``bin/arduino-cli compile --fqbn esp32:esp32:nodemcu-32s bitbang``
+``bin/arduino-cli compile --fqbn esp32:esp32:nodemcu-32s AstraDashHomeAssistant``
 
 ## Run
 Note: Change ttyUSB1 to whatever port you are targeting.  ``sudo dmesg | grep tty`` to discover port.
 
-``bin/arduino-cli upload -p /dev/ttyUSB1 --fqbn esp32:esp32:nodemcu-32s bitbang``
+``bin/arduino-cli upload -p /dev/ttyUSB1 --fqbn esp32:esp32:nodemcu-32s AstraDashHomeAssistant``
 
 Or for those who will make lots of changes...
 
 ## Compile and Run (assumes /dev/ttyUSB0)
 ``./test.sh``
+
+## Testing the Display
+``./testDisplay.sh``
 
 ## Configuring Home Assistant
 Create the automation with the following Yaml
