@@ -1,23 +1,18 @@
 #define SCK 18 //Clk
 #define MOSI 23 //Data
-#define SS 5 // Pulse seperating low and high speed packets
 
 #include <ArduinoMqttClient.h>
-int displayDelay = 34;
 void setup() {
   Serial.begin(115200);
-  pinMode(SS, OUTPUT);
   pinMode(SCK, OUTPUT);
   pinMode(MOSI, OUTPUT);
 
   digitalWrite(MOSI, HIGH);
   digitalWrite(SCK, HIGH);
-  digitalWrite(SS, HIGH);
   delay(100);
 
   digitalWrite(MOSI, LOW);
   digitalWrite(SCK, LOW);
-  digitalWrite(SS, LOW);
 }
 
 void loop () {
@@ -202,25 +197,15 @@ void processPayload(byte displayOne, byte displayTwo, byte displayThree, byte di
                        | - final bit of fuel, maybe 8?
 
 */
-
-  digitalWrite(SS, HIGH);
-  delayMicroseconds(2);
-  digitalWrite(SS, LOW);
-  Serial.println();
 }
 
 
 byte bitBangData(byte _send) {
   for(int i=0; i<8; i++) {
     digitalWrite(MOSI, bitRead(_send, i));
-    delayMicroseconds(1);
     digitalWrite(SCK, LOW);
-    delayMicroseconds(1);
     digitalWrite(SCK, HIGH);
-    // Pads this so each bit is approx 34ms
-    delayMicroseconds(displayDelay); 
   }
-  digitalWrite(MOSI, LOW);
   return false;
 }
 
