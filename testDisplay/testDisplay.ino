@@ -3,7 +3,7 @@
 #define SS 5 // Pulse seperating low and high speed packets
 
 #include <ArduinoMqttClient.h>
-int displayDelay = 347;
+int displayDelay = 34;
 void setup() {
   Serial.begin(115200);
   pinMode(SS, OUTPUT);
