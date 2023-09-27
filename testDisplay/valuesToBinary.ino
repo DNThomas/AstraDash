@@ -7,10 +7,34 @@
       fuel: 10,
       oil:3,
       temp: 50
+      // TODO: finmish this off from readme!
     }
   and returns a string of bits IE 11100001011010100101...  with a length of 12*8 = 96
-*/
+  General problem being solved here is:
+    data in: { outdoortemp: 2, battery: 80, indoortemp: 15, carchargelevel: 40, taskstodo: 3, solargen: 16000}
+    data out: 11111111*8
+  each number IE outdoortemp of 2 will impact the bit values according to some logic.
+  firstly we need to know how many potential values can be in the gauage in this case the oil gauge = 5
+  example 1: we need floor and ceiling values for each value IE -10 > 40 - then we do , 40--10 = 50 / 5(see above re potential values) = 10% -- 10% of 6 is 0.6 so 1 bar.
+  example 2: if the outdoor temp was 30 the maths would be 40--10 = 50 / 5 = 10% -- 10% of 30 is 3 so 3 bars.  
 
+  I think a better range is 0 > 30 fwiw :P
+
+  example 1: now to convert this to the relevant bits in a string..   We have the 96 string stored in a global variable.  We will edit each bit individually.
+    first we lookup the corresponding bit in a bit map which looks like this.
+  temp1: 54 (1 bar only)
+    then we would need to be set to 1 IE setBitsInString(temp, 1)
+  example 2: 
+  temp3: 54, 42,41 // yes it can be that weird..  so setBitsInString(temp, 3)
+  
+  TODO: I need to model the temp1, temp2 etc. bit IE
+  temp = [54,42,41,40] then I know I onyl want to set the first 3 which I know from the variable I then iterate over with a for loop 
+  for ( int j = 0; j < 3; ++j ) // output each array element's value {
+      globalBitsVariable[n[j] = 1;
+      Serial.print (n[j]) ;
+      Serial.print (‘\r’) ;
+   } 
+*/
 void processPayload(byte displayOne, byte displayTwo, byte displayThree, byte displayFour, byte displayFive, byte displaySix, byte displaySeven, byte displayEight, byte displayNine, byte displayTen, byte displayEleven, byte displayTwelve) {
   Serial.print("Processing payload..  ");
   bitBangData(displayOne); // digit 3 and MPH/KMH
