@@ -6,6 +6,7 @@
 #include <WiFi.h>
 #include "ArduinoJson.h"
 #include "arduino_secrets.h"
+#include "valuesToBinary.h"
 
 char ssid[] = SECRET_SSID; // Your WIFI Network SSID
 char password[] = SECRET_PASS; // your WIFI Network password
@@ -86,9 +87,9 @@ void onMqttMessage(int messageSize) {
      character = (char)mqttClient.read();
      payload.concat(character);
   }
-  Serial.println(payload); // {temp:"24", battery:"99"}
+  Serial.println(payload);
 
-  StaticJsonDocument<128> doc;
+  StaticJsonDocument<200> doc;
   DeserializationError error = deserializeJson(doc, payload);
 
   if (error) {
@@ -97,11 +98,41 @@ void onMqttMessage(int messageSize) {
     return;
   }
 
-  const char* battery = doc["battery"]; // "50"
-  const char* temp = doc["temp"]; // "24"
-  Serial.println(battery);
-  Serial.println(temp);
-  processPayload(payload);
+  // Oil Temp
+  const char* incomingOilTemp = doc["oilTemp"]; // temporary example value that Home Assistant sent us.
+  Serial.print(incomingOilTemp);
+  int numberOfSegments = sizeof(oilTemp) / sizeof (oilTemp[0]); // Get size, can't do this in function
+  setBitsBasedOnInput(incomingOilTemp, oilTempCeiling, oilTempFloor, oilTemp, numberOfSegments); // set the oil temp bits
+/*
+  // Battery Level
+  const char* incomingBattery = doc["battery"];
+  numberOfSegments = sizeof(battery) / sizeof (battery[0]); // Get size, can't do this in function
+  setBitsBasedOnInput(incomingBattery, batteryCeiling, batteryFloor, battery, numberOfSegments); // set the battery level
+
+  // Coolant Temp
+  const char* incomingCoolantTemp = doc["coolantTemp"];
+  numberOfSegments = sizeof(coolantTemp) / sizeof (coolantTemp[0]); // Get size, can't do this in function
+  setBitsBasedOnInput(incomingCoolantTemp, coolantTempCeiling, coolantTempFloor, coolantTemp, numberOfSegments); // set the coolant temp level
+
+  // Fuel Level
+  const char* incomingFuelLevel = doc["fuelLevel"];
+  numberOfSegments = sizeof(fuelLevel) / sizeof (fuelLevel[0]); // Get size, can't do this in function
+  setBitsBasedOnInput(incomingFuelLevel, fuelLevelCeiling, fuelLevelFloor, fuelLevel, numberOfSegments); // set the coolant temp level
+
+  // RPM
+  const char* incomingRPM = doc["rpm"];
+  numberOfSegments = sizeof(rpm) / sizeof (rpm[0]); // Get size, can't do this in function
+  setBitsBasedOnInput(incomingRPM, rpmCeiling, rpmFloor, rpm, numberOfSegments); // set the coolant temp level
+
+  int m = 0;
+  Serial.println();
+  while (m < allTheBitsSize) {
+    Serial.print(m); // 0,1,2, etc.
+    Serial.print(allTheBits[m]); // 0,1 etc.
+    Serial.println();
+    m++;
+  }
+*/
 }
 
 
