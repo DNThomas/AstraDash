@@ -100,10 +100,9 @@ void onMqttMessage(int messageSize) {
 
   // Oil Temp
   const char* incomingOilTemp = doc["oilTemp"]; // temporary example value that Home Assistant sent us.
-  Serial.print(incomingOilTemp);
   int numberOfSegments = sizeof(oilTemp) / sizeof (oilTemp[0]); // Get size, can't do this in function
   setBitsBasedOnInput(incomingOilTemp, oilTempCeiling, oilTempFloor, oilTemp, numberOfSegments); // set the oil temp bits
-/*
+
   // Battery Level
   const char* incomingBattery = doc["battery"];
   numberOfSegments = sizeof(battery) / sizeof (battery[0]); // Get size, can't do this in function
@@ -132,7 +131,6 @@ void onMqttMessage(int messageSize) {
     Serial.println();
     m++;
   }
-*/
 }
 
 

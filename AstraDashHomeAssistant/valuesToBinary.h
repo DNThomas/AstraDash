@@ -26,12 +26,12 @@ const int fuelLevelCeiling = 100;
 const int rpmFloor = 0;
 const int rpmCeiling = 16000;
 
-void setBitsBasedOnInput(char valueIn, int ceiling, int floor, int bits[], int segs) {
+void setBitsBasedOnInput(char const* valueIn, int ceiling, int floor, int bits[], int segs) {
   String stringValue = String(valueIn);
   int value = stringValue.toInt();
   const int range = ceiling - floor;
   // Divide this Range by the number of segments.
-  // const int numberOfSegments = sizeof(bits) / sizeof (bits[0]);
+  const int numberOfSegments = sizeof(bits) / sizeof (bits[0]);
   // Serial.println(numberOfSegments);
   // Where 20 sits in 45 as a percentage
   float percentage = (float)value / range * 100;
