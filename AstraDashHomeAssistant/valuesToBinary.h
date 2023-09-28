@@ -9,7 +9,7 @@ int battery [] = {57, 72, 71, 70, 69, 68};
 int batteryWarning [] = {58};
 int coolantTemp [] = {66, 65, 80, 79, 78, 77};
 int coolantTempWarning [] = {67};
-int fuelLevel [] = {74, 73, 88, 87, 86, 85, 84, 83, 82, 81, 96, 95, 94, 93, 92, 91, 90};
+int fuelLevel [] = {74, 73, 89, 88, 87, 86, 85, 84, 83, 82, 81, 96, 95, 94, 93, 92, 91, 90};
 int fuelLevelWarning [] = {76};
 int rpm [] = {11,9,24,23,22,21,20,19,18,17,32,31,30,29,28,27,26,25,33,34,35,36,37,38,39,40,41,42,43};
 // TODO SPEEDO
@@ -26,60 +26,30 @@ const int fuelLevelCeiling = 100;
 const int rpmFloor = 0;
 const int rpmCeiling = 16000;
 
-void setBitsBasedOnInput(char const* valueIn, int ceiling, int floor, int bits[], int segs) {
+void setBitsBasedOnInput(char const* valueIn, int ceiling, int floor, int bits[], int numberOfSegments) {
   String stringValue = String(valueIn);
   int value = stringValue.toInt();
   const int range = ceiling - floor;
   // Divide this Range by the number of segments.
-  const int numberOfSegments = sizeof(bits) / sizeof (bits[0]);
-  // Serial.println(numberOfSegments);
-  // Where 20 sits in 45 as a percentage
-  float percentage = (float)value / range * 100;
-  const int numberOfSegmentsToLight = (float)segs / 100 * percentage;
-
+  float percentage = constrain((float)value / range * 100, 0, 100);
+  const int numberOfSegmentsToLight = (float)numberOfSegments / 100 * percentage;
+  Serial.print("Number of segments to light up");
+  Serial.println(numberOfSegmentsToLight);
+  // Serial.println(bitsLit);
   int i = 0;
-  while (i < numberOfSegmentsToLight) {
-    // Serial.print(oilTemp[i]); // 63 & 62
-    allTheBits[bits[i-1]] = 1; // sets the bits to 1
+  int bitsLit = 0;
+  while (i < numberOfSegments) {
+    Serial.println(i);
+    if(bitsLit < numberOfSegmentsToLight) {
+      Serial.print("lighting a segment: ");
+      Serial.println(bits[i-1]);
+      allTheBits[bits[i-1]] = 1;
+      bitsLit++;
+    } else {
+      Serial.print("not lighting a segment: ");
+      Serial.println(bits[i-1]); // something is fucking weird here
+      allTheBits[bits[i-1]] = 0; // error here
+    }
     i++;
   }
 }
-/*
-void setup() {
-  Serial.begin(115200);
-
-  // Oil Temp
-  const int incomingOilTemp = 40; // temporary example value that Home Assistant sent us.
-  int numberOfSegments = sizeof(oilTemp) / sizeof (oilTemp[0]); // Get size, can't do this in function
-  setBitsBasedOnInput(incomingOilTemp, oilTempCeiling, oilTempFloor, oilTemp, numberOfSegments); // set the oil temp bits
-  
-  // Battery Level
-  const int incomingBattery = 50;
-  numberOfSegments = sizeof(battery) / sizeof (battery[0]); // Get size, can't do this in function
-  setBitsBasedOnInput(incomingBattery, batteryCeiling, batteryFloor, battery, numberOfSegments); // set the battery level
-  
-  // Coolant Temp
-  const int incomingCoolantTemp = 30;
-  numberOfSegments = sizeof(coolantTemp) / sizeof (coolantTemp[0]); // Get size, can't do this in function
-  setBitsBasedOnInput(incomingCoolantTemp, coolantTempCeiling, coolantTempFloor, coolantTemp, numberOfSegments); // set the coolant temp level
-  
-  // Fuel Level
-  const int incomingFuelLevel = 90;
-  numberOfSegments = sizeof(fuelLevel) / sizeof (fuelLevel[0]); // Get size, can't do this in function
-  setBitsBasedOnInput(incomingFuelLevel, fuelLevelCeiling, fuelLevelFloor, fuelLevel, numberOfSegments); // set the coolant temp level
-  
-  // RPM
-  const int incomingRPM = 15000;
-  numberOfSegments = sizeof(rpm) / sizeof (rpm[0]); // Get size, can't do this in function
-  setBitsBasedOnInput(incomingRPM, rpmCeiling, rpmFloor, rpm, numberOfSegments); // set the coolant temp level
-  
-  int m = 0;
-  Serial.println();
-  while (m < allTheBitsSize) {
-    Serial.print(m); // 0,1,2, etc.
-    Serial.print(allTheBits[m]); // 0,1 etc.
-    Serial.println();
-    m++;
-  }
-}
-*/
