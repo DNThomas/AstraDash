@@ -7,8 +7,7 @@ int battery [] = {57, 72, 71, 70, 69, 68};
 int batteryWarning [] = {58};
 int coolantTemp [] = {66, 65, 80, 79, 78, 77};
 int coolantTempWarning [] = {67};
-// TODO Fix fuel level
-int fuelLevel [] = {74, 73, 89, 88, 87, 86, 85, 84, 83, 82, 81, 96, 95, 94, 93, 92, 91, 90};
+int fuelLevel [] = {75, 74, 73, 90, 89, 88, 87, 86, 85, 84, 83, 82, 81, 96, 95, 94, 93, 92, 91, 90};
 int fuelLevelWarning [] = {76};
 int rpm [] = {11,9,24,23,22,21,20,19,18,17,32,31,30,29,28,27,26,25,33,34,35,36,37,38,39,40,41,42,43};
 // TODO SPEEDO
