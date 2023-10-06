@@ -14,7 +14,6 @@ char broker[] = SECRET_BROKER; // Your MQQT broker hostname
 char brokeruser[] = SECRET_BROKERUSER; // Your MQQT broker username
 char brokerpass[] = SECRET_BROKERPASS; // Your MQQT broker password
 int brokerport = 1883;
-int displayDelay = 34;
 
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
@@ -101,14 +100,26 @@ void onMqttMessage(int messageSize) {
 
   int m = 0;
   Serial.println("Updating Dash");
-  while (m < 96){ // go through all the bits
-    // Serial.print(allTheBits[m]);
-    int value = allTheBits[m];
-//    Serial.print(value);
-    digitalWrite(MOSI, value);
-    digitalWrite(SCK, LOW);
-    digitalWrite(SCK, HIGH);
-    m++;
+  while (m < 12){ // go through all the bytes
+    for(int i=0; i<8; i++) { // The iteration is working right
+//      Serial.print("BIN: ");
+//      Serial.println(bytes[0], BIN);
+//      int foo = bitRead(bytes[m], i);
+//      Serial.print("Byte: ");
+//      Serial.print(m);
+//      Serial.print("Bit: ");
+//      Serial.print(i);
+//      Serial.print(" -- value: ");
+//      Serial.println(foo); // this value isn't being set?
+      digitalWrite(MOSI, bitRead(bytes[m], i));
+      delayMicroseconds(1);
+      digitalWrite(SCK, LOW);
+      delayMicroseconds(1);
+      digitalWrite(SCK, HIGH);
+    }
+
+    digitalWrite(MOSI, LOW);
+    m++; // go to next byte
   }
   digitalWrite(SS, HIGH);
   delayMicroseconds(2);

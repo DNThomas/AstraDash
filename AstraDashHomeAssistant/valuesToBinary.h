@@ -1,6 +1,4 @@
-// Create a 96 length array with 43 and 48 being on
-int allTheBits[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-const int allTheBitsSize = sizeof(allTheBits) / sizeof (allTheBits[0]);
+byte bytes[] = {0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00010000, 0b10000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000};
 
 // Define each bit that will need to be set to 1.  Increasing the amount of elements will increase the lit items on the gauge
 int oilTemp [] = {63,62,61,60,59};
@@ -9,6 +7,7 @@ int battery [] = {57, 72, 71, 70, 69, 68};
 int batteryWarning [] = {58};
 int coolantTemp [] = {66, 65, 80, 79, 78, 77};
 int coolantTempWarning [] = {67};
+// TODO Fix fuel level
 int fuelLevel [] = {74, 73, 89, 88, 87, 86, 85, 84, 83, 82, 81, 96, 95, 94, 93, 92, 91, 90};
 int fuelLevelWarning [] = {76};
 int rpm [] = {11,9,24,23,22,21,20,19,18,17,32,31,30,29,28,27,26,25,33,34,35,36,37,38,39,40,41,42,43};
@@ -26,6 +25,21 @@ const int fuelLevelCeiling = 100;
 const int rpmFloor = 0;
 const int rpmCeiling = 16000;
 
+void integerToByteWrite (int inputNumber, int value) {
+  // Divide the number by 8 and round down.  This gives us the byte to Write to
+  int byteToWrite = inputNumber/8;
+
+  // Figure out the bit place by taking the input number and offsetting the byte
+  int bitPlace = inputNumber - (byteToWrite*8);
+
+  // The second parameter of bitWrite is reversed IE 0 is the last bit, 1 is the second to last, 7 is the first..
+  // To reverse this we just remove the number we're looking for from 8.
+  int bitToWrite = 8-bitPlace;
+
+  // Write the bit to the byte!
+  bitWrite(bytes[byteToWrite], bitToWrite, value);
+}
+
 void setBitsBasedOnInput(char const* valueIn, int ceiling, int floor, int bits[], int numberOfSegments) {
   String stringValue = String(valueIn);
   int value = stringValue.toInt();
@@ -33,23 +47,21 @@ void setBitsBasedOnInput(char const* valueIn, int ceiling, int floor, int bits[]
   // Divide this Range by the number of segments.
   float percentage = constrain((float)value / range * 100, 0, 100);
   const int numberOfSegmentsToLight = (float)numberOfSegments / 100 * percentage;
-  Serial.print("Number of segments to light up");
+  Serial.print("Number of segments to light up: ");
   Serial.println(numberOfSegmentsToLight);
-  // Serial.println(bitsLit);
+
   int i = 0;
   int bitsLit = 0;
   while (i < numberOfSegments) {
-    Serial.println(i);
     if(bitsLit < numberOfSegmentsToLight) {
-//      Serial.print("lighting a segment: ");
-//      Serial.println(bits[i-1]);
-      allTheBits[bits[i-1]] = 1;
+      Serial.print("lighting a segment: ");
+      Serial.println(bits[i]);
+      integerToByteWrite(bits[i], 1);
       bitsLit++;
     } else {
-//      Serial.print("not lighting a segment: ");
-//      Serial.println(bits[i-1]); // something is fucking weird here
-      allTheBits[bits[i-1]] = 0; // error here
+      integerToByteWrite(bits[i], 0);
     }
     i++;
   }
 }
+
