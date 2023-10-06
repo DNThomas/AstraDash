@@ -1,0 +1,109 @@
+Needs final revision against valuesToBinary.h definitions
+
+ 1                | - middle middle digit 3
+ 2                 | - top left digit 3 
+ 3                  | - top middle digit 3
+ 4                   | - top right digit 3
+ 5                    | - bottom right digit 3
+ 6                     | - TBD - not digit 3
+ 7                      | - TBD - not digit 3
+ 8                       | - TBD - not digit 3 
+
+ 9               | - 6kmph
+ 10                | - 3kmph
+ 11                 | - Top left digit 2
+ 12                  | - Top middle digit 2
+ 13                   | - Top right digit 2
+ 14                    | - bottom right digit 2
+ 15                     | - bottom middle speedo digit 3 // wrong or flipped?  I think 16 is bottom middle...
+ 16                      | - bottom left speedo digit 3
+
+ 17               | - 30krpm
+ 18                | - ...
+ 19                 | - ...
+ 20                  | - ...
+ 21                   | - ...
+ 22                    | - ...
+ 23                     | - ...
+ 24                      | - 10k rpm
+
+ 25               | - 45k
+ 26                | - ...
+ 27                 | - ...
+ 28                  | - ...
+ 29                   | - ...
+ 30                    | - ...
+ 31                     | - ...
+ 32                      | - 30k rpm
+
+ 33               | - 45
+ 34                | - ...
+ 35                 | - ...
+ 36                  | - ...
+ 37                   | - ...
+ 38                    | - ...
+ 39                     | - ...
+ 40                      | - 60k rpm
+
+ 41               | - 60
+ 42                | - ...
+ 43                 | - 70
+ 44                  | - Speedo backlight
+ 45                   | - TBD
+ 46                    | - First Red line?
+ 47                     | - TBD
+ 48                      | - TBD - 
+
+ 49               | - Left 4 icons
+ 50                | - TBD
+ 51                 | - digit 1 > top middle, bottom left, middle middle, bottom middle
+ 52                  | - digit 1 > top right
+ 53                   | - digit 1 > bottom right
+ 54                    | - digit 2 > bottom middle
+ 55                     | - digit 2 > bottom left
+ 56                      | - digit 2 > middle section
+
+ 57               | - 1st bit of battery
+ 58                | - battery alarm
+ 59                 | - final section of oil
+ 60                  | - 4th section of oil
+ 61                   | - 3rd section of oil
+ 62                    | - 2nd section of oil
+ 63                     | - 1st section of oil
+ 64                      | - oil warning?
+
+ 65               | - 2nd bit of temp
+ 66                | - 1st bit of temp
+ 67                 | - temp light
+ 68                  | - 6th bit of battery
+ 69                   | - 5th bit of battery
+ 70                    | - 4th bit of battery
+ 71                     | - 3rd bit of battery
+ 72                      | - 2nd bit of battery
+
+ 73               | - 2nd bit of fuel
+ 74                | - 1st bit of fuel
+ 75                 | - TBD
+ 76                  | - fuel alarm
+ 77                   | - Final red bit of temp
+ 78                    | - 5th bit of temp
+ 79                     | - 4th bit of temp
+ 80                      | - 3rd bit of temp
+
+ 81               | - 9th
+ 82                | - 8th
+ 83                 | - 7th
+ 84                  | - 6th bit of fuel
+ 85                   | - 5th bit of fuiel
+ 86                    | - 4th bit of Fuel?
+ 87                     | - 3rd bit of Fuel?  Hard to tell
+ 88                      | - 2nd bit of Fuel?  Hard to tell
+
+ 89               | - penultimate bit of fuel?
+ 90                | - final bit of fuel
+ 91                 | - 7th bit of fuel
+ 92                  | - TBD
+ 93                   | - TBD
+ 94                    | - TBD?
+ 95                     | - TBD
+ 96                      | - final bit of fuel, maybe 8?
