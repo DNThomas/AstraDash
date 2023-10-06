@@ -71,9 +71,9 @@ action:
       retain: false
       topic: AstraGTEDials
       payload: >-
-        { oilTemp:""{{ states('sensor.outdoor_temperature') }}",
-        battery:"{{states('sensor.solarbattery') }}", coolantTemp:"{{
-        state_attr('climate.house', 'current_temperature') }}",
+        { oilTemp:"{{ states('sensor.outdoor_temperature') }}",
+        battery:"{{states('sensor.solarbattery') }}",
+        coolantTemp:"{{state_attr('climate.house', 'current_temperature') }}",
         fuelLevel:"{{states('sensor.leaf1ljpi_charge')}}",
         rpm:"{{states('sensor.solargeneration')}}",
         speedo:"{{states('input_number.active_todoist_jobs_today')}}" }
