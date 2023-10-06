@@ -104,7 +104,7 @@ void onMqttMessage(int messageSize) {
   while (m < 96){ // go through all the bits
     // Serial.print(allTheBits[m]);
     int value = allTheBits[m];
-    Serial.print(value);
+//    Serial.print(value);
     digitalWrite(MOSI, value);
     digitalWrite(SCK, LOW);
     digitalWrite(SCK, HIGH);

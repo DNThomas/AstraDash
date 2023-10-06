@@ -41,13 +41,13 @@ void setBitsBasedOnInput(char const* valueIn, int ceiling, int floor, int bits[]
   while (i < numberOfSegments) {
     Serial.println(i);
     if(bitsLit < numberOfSegmentsToLight) {
-      Serial.print("lighting a segment: ");
-      Serial.println(bits[i-1]);
+//      Serial.print("lighting a segment: ");
+//      Serial.println(bits[i-1]);
       allTheBits[bits[i-1]] = 1;
       bitsLit++;
     } else {
-      Serial.print("not lighting a segment: ");
-      Serial.println(bits[i-1]); // something is fucking weird here
+//      Serial.print("not lighting a segment: ");
+//      Serial.println(bits[i-1]); // something is fucking weird here
       allTheBits[bits[i-1]] = 0; // error here
     }
     i++;
