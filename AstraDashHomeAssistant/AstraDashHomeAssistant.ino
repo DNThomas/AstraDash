@@ -99,18 +99,29 @@ void onMqttMessage(int messageSize) {
   setBitsBasedOnInput(incomingRPM, rpmCeiling, rpmFloor, rpm, numberOfSegments); // set the coolant temp level
 
   // Speedo
+  // First to reset
+  int numberOfDigits = sizeof(digits);
+  int digCount = 0;
+  while (digCount < numberOfDigits) {
+    integerToByteWrite(digits[digCount], 0);
+    digCount++;
+  }
+
+  // Now we have reset we can write the digits
   const char* incomingSpeedo = doc["speedo"];
   String stringValue = String(incomingSpeedo);
   int val = stringValue.toInt();
-  int* speedoBits = digitthree[val-1];
+  int* speedoBits = digitthree[val];
 //  Serial.print("Setting the Speedo digits: ");
 //  Serial.println(val);
-  int numberOfParts = sizeof(speedoBits);
+  int numberOfParts = sizeof(digitthree[val]) / sizeof(digitthree[val][0]);
+  // TODO: There is some weird bug here where numberOfParts is the wrong size..
+  // It doesn't appear to break anything but it needs looking at when I'm better with C++
 //  Serial.print("Size");
-//  Serial.println(numberOfParts);
+  Serial.println(numberOfParts);
   int segmentCount = 0;
   while (segmentCount < numberOfParts) {
-//    Serial.println(speedoBits[segmentCount]);
+    Serial.println(speedoBits[segmentCount]);
     integerToByteWrite(speedoBits[segmentCount], 1);
     segmentCount++;
   }
