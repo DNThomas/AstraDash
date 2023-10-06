@@ -98,6 +98,25 @@ void onMqttMessage(int messageSize) {
   numberOfSegments = sizeof(rpm) / sizeof (rpm[0]); // Get size, can't do this in function
   setBitsBasedOnInput(incomingRPM, rpmCeiling, rpmFloor, rpm, numberOfSegments); // set the coolant temp level
 
+  // Speedo
+  const char* incomingSpeedo = doc["speedo"];
+  String stringValue = String(incomingSpeedo);
+  int val = stringValue.toInt();
+  int* speedoBits = digitthree[val-1];
+//  Serial.print("Setting the Speedo digits: ");
+//  Serial.println(val);
+  int numberOfParts = sizeof(speedoBits);
+//  Serial.print("Size");
+//  Serial.println(numberOfParts);
+  int segmentCount = 0;
+  while (segmentCount < numberOfParts) {
+//    Serial.println(speedoBits[segmentCount]);
+    integerToByteWrite(speedoBits[segmentCount], 1);
+    segmentCount++;
+  }
+
+
+  // All data collected we can draw the dash
   int m = 0;
   Serial.println("Updating Dash");
   while (m < 12){ // go through all the bytes

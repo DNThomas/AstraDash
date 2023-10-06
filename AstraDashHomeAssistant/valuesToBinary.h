@@ -10,6 +10,22 @@ int coolantTempWarning [] = {67};
 int fuelLevel [] = {75, 74, 73, 90, 89, 88, 87, 86, 85, 84, 83, 82, 81, 96, 95, 94, 93, 92, 91, 90};
 int fuelLevelWarning [] = {76};
 int rpm [] = {11,9,24,23,22,21,20,19,18,17,32,31,30,29,28,27,26,25,33,34,35,36,37,38,39,40,41,42,43};
+int digitthree[3][10] = { { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
+                       { 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 },
+                       { 1,3,4,5 } };
+/*
+int digitthree[9] = {
+  {1,2},
+  {1,2},
+  {1,3,4,5},
+  {1,2},
+  {1,2},
+  {1,2},
+  {1,2},
+  {1,2},
+  {1,2}
+};
+*/
 // TODO SPEEDO
 
 // Define floor and ceiling, we will need this to figure out how many sections of a gauge to light up
@@ -46,15 +62,15 @@ void setBitsBasedOnInput(char const* valueIn, int ceiling, int floor, int bits[]
   // Divide this Range by the number of segments.
   float percentage = constrain((float)value / range * 100, 0, 100);
   const int numberOfSegmentsToLight = (float)numberOfSegments / 100 * percentage;
-  Serial.print("Number of segments to light up: ");
-  Serial.println(numberOfSegmentsToLight);
+//  Serial.print("Number of segments to light up: ");
+//  Serial.println(numberOfSegmentsToLight);
 
   int i = 0;
   int bitsLit = 0;
   while (i < numberOfSegments) {
     if(bitsLit < numberOfSegmentsToLight) {
-      Serial.print("lighting a segment: ");
-      Serial.println(bits[i]);
+//      Serial.print("lighting a segment: ");
+//      Serial.println(bits[i]);
       integerToByteWrite(bits[i], 1);
       bitsLit++;
     } else {
