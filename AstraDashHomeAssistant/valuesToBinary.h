@@ -11,7 +11,7 @@ int fuelLevel [] = {75, 74, 73, 90, 89, 88, 87, 86, 85, 84, 83, 82, 81, 96, 95, 
 int fuelLevelWarning [] = {76};
 int rpm [] = {11,9,24,23,22,21,20,19,18,17,32,31,30,29,28,27,26,25,33,34,35,36,37,38,39,40,41,42,43};
 int digits [] = {1,2,3,4,5,6,7,8,11,12,13,14,15,16,51,52,53,54,55,56}; // all the digits for speedo
-int digitthree[10][9] = {
+int digitthree[10][7] = {
   { 2,3,4,5,15,16 }, // 0 TEST - missing bottom left
   { 4,5 }, // 1
   { 1,3,4,15,16 }, // 2 TEST - missing bottom left
@@ -20,7 +20,7 @@ int digitthree[10][9] = {
   { 1,2,3,5,15 }, // 5
   { 1,2,3,5,15,16 }, // 6 TEST - missing bottom left
   { 3,4,5 }, // 7
-  { 1,2,3,4,5,15,16 }, // 8 TEST - missing bottom right, middle, and left
+  { 1,2,3,4,5,15,16 }, // 8 TEST - set to 7 on 2nd digit for testing - I can't get bottom left working ;(
   { 1,2,3,4,5,15 } // 9
 };
 

@@ -1,10 +1,10 @@
 Needs final revision against valuesToBinary.h definitions
 
- 1                | - middle middle
- 2                 | - top left
- 3                  | - top middle
- 4                   | - top right
- 5                    | - bottom right
+ 1                | - middle middle digit 3
+ 2                 | - top left digit 3 
+ 3                  | - top middle digit 3
+ 4                   | - top right digit 3
+ 5                    | - bottom right digit 3
  6                     | - TBD - not digit 3
  7                      | - TBD - not digit 3
  8                       | - TBD - not digit 3 
@@ -15,7 +15,7 @@ Needs final revision against valuesToBinary.h definitions
  12                  | - Top middle digit 2
  13                   | - Top right digit 2
  14                    | - bottom right digit 2
- 15                     | - bottom middle speedo digit 3
+ 15                     | - bottom middle speedo digit 3 // wrong or flipped?  I think 16 is bottom middle...
  16                      | - bottom left speedo digit 3
 
  17               | - 30krpm
