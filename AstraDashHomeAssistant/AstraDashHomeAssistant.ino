@@ -100,7 +100,7 @@ void onMqttMessage(int messageSize) {
 
   // Speedo
   // First to reset
-  int numberOfDigits = sizeof(digits);
+  int numberOfDigits = 20; // 20 possible drawable things to reset
   int digCount = 0;
   while (digCount < numberOfDigits) {
     integerToByteWrite(digits[digCount], 0);
@@ -126,7 +126,6 @@ void onMqttMessage(int messageSize) {
     segmentCount++;
   }
 
-
   // All data collected we can draw the dash
   int m = 0;
   Serial.println("Updating Dash");
@@ -134,13 +133,15 @@ void onMqttMessage(int messageSize) {
     for(int i=0; i<8; i++) { // The iteration is working right
 //      Serial.print("BIN: ");
 //      Serial.println(bytes[0], BIN);
-//      int foo = bitRead(bytes[m], i);
-//      Serial.print("Byte: ");
-//      Serial.print(m);
-//      Serial.print("Bit: ");
-//      Serial.print(i);
-//      Serial.print(" -- value: ");
-//      Serial.println(foo); // this value isn't being set?
+      int foo = bitRead(bytes[m], i);
+/*
+      Serial.print("Byte: ");
+      Serial.print(m);
+      Serial.print(" > Bit: ");
+      Serial.print(i);
+      Serial.print(" -- value: ");
+      Serial.println(foo); // this value isn't being set?
+*/
       digitalWrite(MOSI, bitRead(bytes[m], i));
       delayMicroseconds(1);
       digitalWrite(SCK, LOW);
