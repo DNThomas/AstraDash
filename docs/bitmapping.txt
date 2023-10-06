@@ -1,5 +1,5 @@
 Needs final revision against valuesToBinary.h definitions
-
+0
  1                | - middle middle digit 3
  2                 | - top left digit 3 
  3                  | - top middle digit 3
@@ -9,6 +9,7 @@ Needs final revision against valuesToBinary.h definitions
  7                      | - TBD - not digit 3
  8                       | - TBD - not digit 3 
 
+1
  9               | - 6kmph
  10                | - 3kmph
  11                 | - Top left digit 2
@@ -18,6 +19,7 @@ Needs final revision against valuesToBinary.h definitions
  15                     | - bottom middle speedo digit 3 // wrong or flipped?  I think 16 is bottom middle...
  16                      | - bottom left speedo digit 3
 
+2
  17               | - 30krpm
  18                | - ...
  19                 | - ...
@@ -27,6 +29,7 @@ Needs final revision against valuesToBinary.h definitions
  23                     | - ...
  24                      | - 10k rpm
 
+3
  25               | - 45k
  26                | - ...
  27                 | - ...
@@ -36,6 +39,7 @@ Needs final revision against valuesToBinary.h definitions
  31                     | - ...
  32                      | - 30k rpm
 
+4
  33               | - 45
  34                | - ...
  35                 | - ...
@@ -45,6 +49,7 @@ Needs final revision against valuesToBinary.h definitions
  39                     | - ...
  40                      | - 60k rpm
 
+5
  41               | - 60
  42                | - ...
  43                 | - 70
@@ -54,6 +59,7 @@ Needs final revision against valuesToBinary.h definitions
  47                     | - TBD
  48                      | - TBD - 
 
+6
  49               | - Left 4 icons
  50                | - TBD
  51                 | - digit 1 > top middle, bottom left, middle middle, bottom middle
@@ -63,6 +69,7 @@ Needs final revision against valuesToBinary.h definitions
  55                     | - digit 2 > bottom left
  56                      | - digit 2 > middle section
 
+7
  57               | - 1st bit of battery
  58                | - battery alarm
  59                 | - final section of oil
@@ -72,6 +79,7 @@ Needs final revision against valuesToBinary.h definitions
  63                     | - 1st section of oil
  64                      | - oil warning?
 
+8
  65               | - 2nd bit of temp
  66                | - 1st bit of temp
  67                 | - temp light
@@ -81,6 +89,7 @@ Needs final revision against valuesToBinary.h definitions
  71                     | - 3rd bit of battery
  72                      | - 2nd bit of battery
 
+9
  73               | - 2nd bit of fuel
  74                | - 1st bit of fuel
  75                 | - TBD
@@ -90,6 +99,7 @@ Needs final revision against valuesToBinary.h definitions
  79                     | - 4th bit of temp
  80                      | - 3rd bit of temp
 
+10
  81               | - 9th
  82                | - 8th
  83                 | - 7th
@@ -99,6 +109,7 @@ Needs final revision against valuesToBinary.h definitions
  87                     | - 3rd bit of Fuel?  Hard to tell
  88                      | - 2nd bit of Fuel?  Hard to tell
 
+11
  89               | - penultimate bit of fuel?
  90                | - final bit of fuel
  91                 | - 7th bit of fuel
