@@ -14,7 +14,6 @@ char broker[] = SECRET_BROKER; // Your MQQT broker hostname
 char brokeruser[] = SECRET_BROKERUSER; // Your MQQT broker username
 char brokerpass[] = SECRET_BROKERPASS; // Your MQQT broker password
 int brokerport = 1883;
-int displayDelay = 34;
 
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
@@ -53,30 +52,6 @@ void setup() {
   // set the message receive callback
   mqttClient.onMessage(onMqttMessage);
 }
-
-
-void processPayload(String payload) {
-  Serial.println("Processing payload");
-  // bitBangDatflipByte(fuzz)); // digit 3 and MPH/KMH
-  bitBangData(0x00); // digit 3 and MPH/KMH
-  bitBangData(0xFF); // digit 2 and 1st 4 segs of revs -- also something on speedo?
-  bitBangData(0xFF); // next 8 segs of revs
-  bitBangData(0xFF); // next 8 segs of revs
-  bitBangData(0xFF); // last 8 segs of revs
-  bitBangData(0xFF); // revs colour and red bits (0XFF for Red bits on)
-  bitBangData(0xFF); // digit 1 and 2 of MPH/KPH. All 4 of left indicators -
-  // bitBangData(flipByte(doc["battery"]); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
-  bitBangData(0xFF); // Oil segments, battery alarm (0x15 == battery alarm off, 0x13 == battery alarm on)
-  bitBangData(fuzz); // battery segments, temp alarm
-  bitBangData(0xFF); // temp segments, fuel alarm
-  bitBangData(0xFF); // fuel segments
-  bitBangData(0xFF); // fuel segment end
-  digitalWrite(SS, HIGH);
-  delayMicroseconds(2);
-  digitalWrite(SS, LOW);
-  fuzz++;
-}
-
 
 
 void onMqttMessage(int messageSize) {
@@ -123,35 +98,67 @@ void onMqttMessage(int messageSize) {
   numberOfSegments = sizeof(rpm) / sizeof (rpm[0]); // Get size, can't do this in function
   setBitsBasedOnInput(incomingRPM, rpmCeiling, rpmFloor, rpm, numberOfSegments); // set the coolant temp level
 
-  int m = 0;
-  Serial.println();
-  while (m < allTheBitsSize) {
-    Serial.print(m); // 0,1,2, etc.
-    Serial.print(allTheBits[m]); // 0,1 etc.
-    Serial.println();
-    m++;
+  // Speedo
+  // First to reset
+  int numberOfDigits = 20; // 20 possible drawable things to reset
+  int digCount = 0;
+  while (digCount < numberOfDigits) {
+    integerToByteWrite(digits[digCount], 0);
+    digCount++;
   }
-}
 
+  // Now we have reset we can write the digits
+  const char* incomingSpeedo = doc["speedo"];
+  String stringValue = String(incomingSpeedo);
+  int val = stringValue.toInt();
+  int* speedoBits = digitthree[val];
+//  Serial.print("Setting the Speedo digits: ");
+//  Serial.println(val);
+  int numberOfParts = sizeof(digitthree[val]) / sizeof(digitthree[val][0]);
+  // TODO: There is some weird bug here where numberOfParts is the wrong size..
+  // It doesn't appear to break anything but it needs looking at when I'm better with C++
+//  Serial.print("Size");
+  Serial.println(numberOfParts);
+  int segmentCount = 0;
+  while (segmentCount < numberOfParts) {
+    Serial.println(speedoBits[segmentCount]);
+    integerToByteWrite(speedoBits[segmentCount], 1);
+    segmentCount++;
+  }
+
+  // All data collected we can draw the dash
+  int m = 0;
+  Serial.println("Updating Dash");
+  while (m < 12){ // go through all the bytes
+    for(int i=0; i<8; i++) { // The iteration is working right
+//      Serial.print("BIN: ");
+//      Serial.println(bytes[0], BIN);
+      int foo = bitRead(bytes[m], i);
+/*
+      Serial.print("Byte: ");
+      Serial.print(m);
+      Serial.print(" > Bit: ");
+      Serial.print(i);
+      Serial.print(" -- value: ");
+      Serial.println(foo); // this value isn't being set?
+*/
+      digitalWrite(MOSI, bitRead(bytes[m], i));
+      delayMicroseconds(1);
+      digitalWrite(SCK, LOW);
+      delayMicroseconds(1);
+      digitalWrite(SCK, HIGH);
+    }
+
+    digitalWrite(MOSI, LOW);
+    m++; // go to next byte
+  }
+  digitalWrite(SS, HIGH);
+  delayMicroseconds(2);
+  digitalWrite(SS, LOW);
+}
 
 void loop() {
   mqttClient.poll();
-}
-
-
-
-byte bitBangData(byte _send) {
-  for(int i=0; i<8; i++) {
-    digitalWrite(MOSI, bitRead(_send, i));
-    delayMicroseconds(1);
-    digitalWrite(SCK, LOW);
-    delayMicroseconds(1);
-    digitalWrite(SCK, HIGH);
-    // Pads this so each bit is approx 34ms
-    delayMicroseconds(displayDelay); 
-  }
-  digitalWrite(MOSI, LOW);
-  return false;
 }
 
 void initWiFi() {

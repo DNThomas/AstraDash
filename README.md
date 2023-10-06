@@ -70,19 +70,23 @@ action:
       qos: 0
       retain: false
       topic: AstraGTEDials
-      payload: "{temp:\"24\", battery:\"99\"}"
+      payload: >-
+        { oilTemp:"{{ states('sensor.outdoor_temperature') }}",
+        battery:"{{states('sensor.solarbattery') }}",
+        coolantTemp:"{{state_attr('climate.house', 'current_temperature') }}",
+        fuelLevel:"{{states('sensor.leaf1ljpi_charge')}}",
+        rpm:"{{states('sensor.solargeneration')}}",
+        speedo:"{{states('input_number.active_todoist_jobs_today')}}" }
 mode: single
 ```
 
 
 ## Notes
-1. We don't use MISO as it response from Dash to Arduino.
-1. Btw .. your easiest way would be to use old skool screen paging.  Have a 12 byte block of memory assigned to the screen. Put the screen refresh on a timed interrupt and have it say every 100ms. Then just have a loop that waits for commands from serial or websocket that updates the bitmap
 1. The following are NOT supported: Hazards, Lights, Indicators, Choke, Parking Brake ..   Basically anything on the bottom row.  These could however be supported with additional relay control board.
 
 ## TODO
- - [ ] Do one gauge so I have working code that shows a certain value
- - [ ] Mask Bits so simple values can be written.
+ - [x] Do one gauge so I have working code that shows a certain value
+ - [x] Mask Bits so simple values can be written.
  - [ ] Design data structure IE if I want to write low battery level to fuel gauge I want to write something like "fuel:0"
    Currently we write 12 values, on an mqqt update we only know 1 of those 12 values so we'd need to store the previous value and look it up.
    There are two approaches for passing Data..
@@ -91,20 +95,14 @@ mode: single
  -- I guess either way I want something that can support "oil:20" or "battery:40" where 20/40 are %..  I also want to be able to do:
 
 ## Output Designation
- - [ ] Oil Temp > Outdoor Temp Degrees C (-5 > 40)
- - [ ] Oil Temp Warning > Outdoor Temp < 0
- - [ ] Battery Level > Home Storage Battery level %
- - [ ] Battery Level Warning > Battery Level < 10%
- - [ ] Coolant Temp > Indoor temp C (-5 > 40)
- - [ ] Coolant Temp Warning > Indoor Temp < 15 degs
- - [ ] Fuel Level > Electric car charge %
- - [ ] Fuel Level warning > Electric car charge < 20%
+ - [x] Oil Temp > Outdoor Temp Degrees C (-5 > 40)
+ - [x] Oil Temp Warning > Outdoor Temp < 0
+ - [x] Battery Level > Home Storage Battery level %
+ - [x] Battery Level Warning > Battery Level < 10%
+ - [x] Coolant Temp > Indoor temp C (-5 > 40)
+ - [x] Coolant Temp Warning > Indoor Temp < 15 degs
+ - [x] Fuel Level > Electric car charge %
+ - [x] Fuel Level warning > Electric car charge < 20%
  - [ ] Speedo > How many tasks I have to do today (see input_number.active_todoist_jobs_today)
- - [ ] RPM > Solar generation 0 > 7000
+ - [x] RPM > Solar generation 0 > 7000
 
-## Brain dump on driving the display.
-Currently the display is segmented by 12 x 256 values(8 bit) resulting in ~3000 potential states / states.
-
-Thankfully we know how to address each segment so our next step is to go through each segment and pass in various 8 bit values to find a value that changes the state we want.
-
-For example; we can go through all of the potential values on the fuel gauge and discover 
