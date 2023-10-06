@@ -85,14 +85,7 @@ mode: single
 1. The following are NOT supported: Hazards, Lights, Indicators, Choke, Parking Brake ..   Basically anything on the bottom row.  These could however be supported with additional relay control board.
 
 ## TODO
- - [x] Do one gauge so I have working code that shows a certain value
- - [x] Mask Bits so simple values can be written.
- - [ ] Design data structure IE if I want to write low battery level to fuel gauge I want to write something like "fuel:0"
-   Currently we write 12 values, on an mqqt update we only know 1 of those 12 values so we'd need to store the previous value and look it up.
-   There are two approaches for passing Data..
-    1. Build bitmap in HA and pass it to the ESP32
-    1. Pass integer values from HA and have the ESP32 build the bitmap
- -- I guess either way I want something that can support "oil:20" or "battery:40" where 20/40 are %..  I also want to be able to do:
+ - [ ] Second Digit on speedo
 
 ## Output Designation
  - [x] Oil Temp > Outdoor Temp Degrees C (-5 > 40)
@@ -103,6 +96,6 @@ mode: single
  - [x] Coolant Temp Warning > Indoor Temp < 15 degs
  - [x] Fuel Level > Electric car charge %
  - [x] Fuel Level warning > Electric car charge < 20%
- - [ ] Speedo > How many tasks I have to do today (see input_number.active_todoist_jobs_today)
+ - [x] Speedo > How many tasks I have to do today (see input_number.active_todoist_jobs_today)
  - [x] RPM > Solar generation 0 > 7000
 
