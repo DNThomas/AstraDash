@@ -19,6 +19,8 @@ WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
 const char topic[]  = "AstraGTEDials";
+unsigned long previousMillis = 0;
+unsigned long interval = 30000;
 
 byte fuzz;
 
@@ -159,6 +161,28 @@ void onMqttMessage(int messageSize) {
 
 void loop() {
   mqttClient.poll();
+
+unsigned long currentMillis = millis();
+// if WiFi is down, try reconnecting
+if ((WiFi.status() != WL_CONNECTED) && (currentMillis - previousMillis >=interval)) {
+  Serial.print(millis());
+  Serial.println("Reconnecting to WiFi...");
+  WiFi.disconnect();
+  WiFi.reconnect();
+  previousMillis = currentMillis;
+  mqttClient.setUsernamePassword(brokeruser, brokerpass);
+  if (!mqttClient.connect(broker, brokerport)) {
+    Serial.print("MQTT connection failed! Error code = ");
+    Serial.println(mqttClient.connectError());
+    while (1);
+  }
+  mqttClient.subscribe(topic);
+  Serial.println("You're connected to the MQTT broker!");
+
+  // set the message receive callback
+  mqttClient.onMessage(onMqttMessage);
+}
+
 }
 
 void initWiFi() {
