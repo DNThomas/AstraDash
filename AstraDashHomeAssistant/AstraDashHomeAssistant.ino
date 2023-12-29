@@ -163,6 +163,10 @@ void loop() {
   mqttClient.poll();
 
 unsigned long currentMillis = millis();
+  if (currentMillis => 86400000){
+    ESP.restart();
+  } 
+
 // if WiFi is down, try reconnecting
 if ((WiFi.status() != WL_CONNECTED) && (currentMillis - previousMillis >=interval)) {
   Serial.print(millis());
